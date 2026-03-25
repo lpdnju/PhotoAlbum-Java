@@ -1,0 +1,23 @@
+{
+  "input_name": "Application Name",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Application name is 'Photo Album' (display name) with artifact identifier 'photo-album', consistently identified across pom.xml, docker-compose.yml container name, and README title.",
+    "confidence": "high",
+    "evidence": [
+      "pom.xml: <name>Photo Album</name> and <artifactId>photo-album</artifactId>",
+      "docker-compose.yml: container_name: photoalbum-java-app",
+      "README.md title: '# Photo Album Application - Java Spring Boot with Oracle DB'",
+      "No spring.application.name set in application.properties"
+    ],
+    "values": [
+      "Primary display name: Photo Album",
+      "Artifact ID: photo-album",
+      "Container name: photoalbum-java-app",
+      "Group ID: com.photoalbum"
+    ]
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:52:00Z"
+}

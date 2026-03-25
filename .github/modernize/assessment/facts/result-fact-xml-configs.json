@@ -1,0 +1,27 @@
+{
+  "input_name": "XML Configs",
+  "analysis_method": "LLM",
+  "status": "not_applicable",
+  "result": {
+    "finding": "No XML configuration files detected. Application uses Spring Boot with annotation-based @Configuration approach and application.properties files exclusively — no Spring XML context files, Hibernate .hbm.xml, web.xml, persistence.xml, or logging XML configs.",
+    "confidence": "high",
+    "evidence": [
+      "No *.xml files found under src/ directory (excluding pom.xml which is build-only)",
+      "No applicationContext.xml, spring-*.xml, or *-context.xml found",
+      "No hibernate.cfg.xml or *.hbm.xml entity mapping files found",
+      "No web.xml (Spring Boot uses embedded Tomcat, no deployment descriptor needed)",
+      "No persistence.xml (Spring Data JPA configured via application.properties)",
+      "No log4j.xml or logback.xml (Spring Boot default Logback configured via properties)",
+      "Configuration uses Spring Boot auto-configuration, @SpringBootApplication, @Repository, @Service, @Controller annotations"
+    ],
+    "values": [
+      "XML configuration: none",
+      "Config approach: Spring Boot annotation-based auto-configuration",
+      "Spring context files: 0",
+      "Hibernate mapping files: 0",
+      "Java EE deployment descriptors: 0"
+    ]
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:54:50Z"
+}

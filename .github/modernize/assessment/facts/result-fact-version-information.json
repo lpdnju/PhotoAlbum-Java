@@ -1,0 +1,23 @@
+{
+  "input_name": "Version Information",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Application version is 1.0.0 as declared in pom.xml. Built on Spring Boot 2.7.18 parent. No git tags present. No version property in application.properties.",
+    "confidence": "high",
+    "evidence": [
+      "pom.xml line 17: <version>1.0.0</version> (project artifact version)",
+      "pom.xml line 11: spring-boot-starter-parent version 2.7.18 (framework version)",
+      "No info.app.version or app.version in application.properties",
+      "No git tags found in repository"
+    ],
+    "values": [
+      "Application version: 1.0.0",
+      "Version type: initial release (no SNAPSHOT suffix)",
+      "Spring Boot version: 2.7.18",
+      "Java version: 8 (1.8)"
+    ]
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:52:50Z"
+}

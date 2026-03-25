@@ -1,0 +1,27 @@
+{
+  "input_name": "Data Classification",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "Internal/Public — the application stores only photo image data (BLOB) and technical metadata (filename, size, MIME type, dimensions, timestamp). No PII, PHI, PCI, or confidential business data handled.",
+    "confidence": "high",
+    "evidence": [
+      "Photo entity fields: id (UUID), originalFileName, photoData (BLOB), storedFileName, filePath, fileSize, mimeType, uploadedAt, width, height",
+      "No user/identity fields (no email, name, address, phone, SSN)",
+      "No payment or financial fields",
+      "No health or medical fields",
+      "No formal data classification documentation found in README or docs"
+    ],
+    "values": [
+      "Classification: Internal (photo gallery data)",
+      "Data types: image BLOB, technical metadata (filename, size, MIME type, dimensions, timestamp)",
+      "No PII, no PHI, no PCI data",
+      "Photo filenames could indirectly reveal information about content"
+    ],
+    "script_output": {
+      "classifications": ["Internal"]
+    }
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:54:20Z"
+}

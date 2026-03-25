@@ -1,0 +1,23 @@
+{
+  "input_name": "Orchestration Tool",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Docker Compose is the only orchestration tool used. A single docker-compose.yml file at the project root defines two services (application + Oracle DB). No Kubernetes manifests, Docker Swarm configs, or Helm charts detected.",
+    "confidence": "high",
+    "evidence": [
+      "docker-compose.yml present at project root with 2 services: oracle-db and photoalbum-java-app",
+      "No k8s/, manifests/, or helm/ directories found",
+      "No Kubernetes apiVersion/kind patterns found in YAML files",
+      "No kubectl, helm, or docker stack commands in CI/CD workflows",
+      "README.md instructs usage via 'docker-compose up --build -d'"
+    ],
+    "values": [
+      "Docker Compose (Compose Specification v2)",
+      "2 services defined: oracle-db, photoalbum-java-app",
+      "No Kubernetes, no Docker Swarm, no Helm"
+    ]
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:53:00Z"
+}

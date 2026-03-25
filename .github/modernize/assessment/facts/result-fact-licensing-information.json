@@ -1,0 +1,26 @@
+{
+  "input_name": "Licensing Information",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "MIT License held by Microsoft Corporation. Key dependencies are Spring Boot (Apache 2.0), Oracle JDBC ojdbc8 (Oracle Technology Network License), and commons-io (Apache 2.0).",
+    "confidence": "high",
+    "evidence": [
+      "LICENSE file at project root: MIT License, Copyright (c) Microsoft Corporation",
+      "pom.xml: no explicit <licenses> section declared",
+      "Spring Boot (Apache License 2.0) — open source, permissive",
+      "ojdbc8 Oracle JDBC driver — Oracle Technology Network (OTN) License, free for development use",
+      "commons-io 2.11.0 — Apache License 2.0"
+    ],
+    "values": [
+      "Application license: MIT License",
+      "Copyright holder: Microsoft Corporation",
+      "Spring Boot framework: Apache License 2.0",
+      "Oracle JDBC (ojdbc8): Oracle Technology Network License",
+      "commons-io: Apache License 2.0",
+      "Note: Oracle JDBC driver license may have redistribution restrictions in commercial deployments"
+    ]
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:54:10Z"
+}

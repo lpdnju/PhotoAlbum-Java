@@ -1,0 +1,28 @@
+{
+  "input_name": "Environment Variables",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "8 environment variables configured across Dockerfile and docker-compose.yml. Application service uses 4 Spring Boot overrides plus 1 JVM tuning var. Oracle DB service uses 3 database credential variables. No .env file or .env.example present — credentials are hardcoded in docker-compose.yml.",
+    "confidence": "high",
+    "evidence": [
+      "Dockerfile: ENV JAVA_OPTS='-Xmx512m -Xms256m' (JVM memory tuning)",
+      "docker-compose.yml oracle-db: ORACLE_PASSWORD, APP_USER, APP_USER_PASSWORD (hardcoded)",
+      "docker-compose.yml photoalbum-java-app: SPRING_PROFILES_ACTIVE=docker, SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD (hardcoded)",
+      "No .env or .env.example file found"
+    ],
+    "values": [
+      "JAVA_OPTS (runtime/JVM): -Xmx512m -Xms256m",
+      "SPRING_PROFILES_ACTIVE (runtime): docker",
+      "SPRING_DATASOURCE_URL (database): jdbc:oracle:thin:@oracle-db:1521/FREEPDB1",
+      "SPRING_DATASOURCE_USERNAME (database): photoalbum",
+      "SPRING_DATASOURCE_PASSWORD (database/secret): [set]",
+      "ORACLE_PASSWORD (database/secret): [set]",
+      "APP_USER (database): photoalbum",
+      "APP_USER_PASSWORD (database/secret): [set]",
+      "Total: 8 variables — categories: runtime (2), database (3), secrets (3)"
+    ]
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:52:20Z"
+}

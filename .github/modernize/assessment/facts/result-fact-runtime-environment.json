@@ -1,0 +1,30 @@
+{
+  "input_name": "Runtime Environment",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "Java 8 (JRE) via Eclipse Temurin (eclipse-temurin:8-jre). Spring Boot 2.7.18 application packaged as a fat JAR, running with JVM options -Xmx512m -Xms256m.",
+    "confidence": "high",
+    "evidence": [
+      "Dockerfile final stage: FROM eclipse-temurin:8-jre (Java 8 JRE runtime)",
+      "Dockerfile build stage: FROM maven:3.9.6-eclipse-temurin-8 (Maven 3.9.6 + Java 8 build tool)",
+      "pom.xml: <java.version>1.8</java.version>, maven.compiler.source=8, target=8",
+      "Spring Boot fat JAR entrypoint: java $JAVA_OPTS -jar app.jar",
+      "ENV JAVA_OPTS='-Xmx512m -Xms256m' configured in Dockerfile"
+    ],
+    "values": [
+      "Runtime: Java (JVM)",
+      "Version: Java 8 (1.8)",
+      "JRE distribution: Eclipse Temurin (eclipse-temurin:8-jre)",
+      "Framework: Spring Boot 2.7.18",
+      "Deployment: Fat JAR (Spring Boot Maven Plugin)"
+    ],
+    "script_output": {
+      "runtime": "Java",
+      "version": "8",
+      "variant": "eclipse-temurin-jre"
+    }
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:55:00Z"
+}

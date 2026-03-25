@@ -1,0 +1,14 @@
+{
+  "input_name": "Compliance Requirements",
+  "analysis_method": "Code",
+  "status": "not_applicable",
+  "result": {
+    "finding": "No compliance requirements detected",
+    "confidence": "medium",
+    "evidence": [],
+    "values": [],
+    "script_output": { "compliance_requirements": [] }
+  },
+  "execution_time_seconds": 0,
+  "timestamp": "2026-03-25T06:04:20Z"
+}

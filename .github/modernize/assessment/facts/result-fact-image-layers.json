@@ -1,0 +1,25 @@
+{
+  "input_name": "Image Layers",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Multi-stage Dockerfile with 2 stages. The final runtime image contains approximately 3 Dockerfile-added layers (WORKDIR, COPY, ENV) on top of the eclipse-temurin:8-jre base image layers (~5-8 base layers), yielding an estimated total of 8-11 layers. The build stage is discarded, keeping the final image lean.",
+    "confidence": "high",
+    "evidence": [
+      "Stage 1 (build): FROM maven:3.9.6-eclipse-temurin-8 AS build — 2 RUN + 2 COPY instructions (discarded in final image)",
+      "Stage 2 (final): FROM eclipse-temurin:8-jre — 1 WORKDIR + 1 COPY --from=build + 1 ENV instruction",
+      "No additional RUN commands in final stage (no package installs)",
+      "Single-command RUN instructions in build stage (no chaining optimization needed)",
+      "COPY pom.xml separately from COPY src to leverage Docker layer cache for dependency downloads"
+    ],
+    "values": [
+      "Estimated total layers in final image: ~8-11",
+      "FROM instructions: 2 (multi-stage build)",
+      "RUN instructions in final stage: 0",
+      "COPY/ADD instructions in final stage: 1 (COPY --from=build)",
+      "ENV instructions in final stage: 1"
+    ]
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:51:30Z"
+}

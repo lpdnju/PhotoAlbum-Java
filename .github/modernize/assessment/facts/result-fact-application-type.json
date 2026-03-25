@@ -1,0 +1,14 @@
+{
+  "input_name": "Application Type",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "REST API",
+    "confidence": "high",
+    "evidence": ["Spring Boot web/REST annotations found"],
+    "values": ["REST API"],
+    "script_output": { "application_type": "REST API" }
+  },
+  "execution_time_seconds": 0,
+  "timestamp": "2026-03-25T05:58:02Z"
+}
