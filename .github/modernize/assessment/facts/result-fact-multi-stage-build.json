@@ -1,0 +1,19 @@
+{
+  "task_id": "013",
+  "input_name": "Multi-stage Build",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "Multi-stage build detected in 1 Dockerfile",
+    "confidence": "high",
+    "evidence": ["/home/runner/work/PhotoAlbum-Java/PhotoAlbum-Java/Dockerfile: Multi-stage build with 2 stages (named stages: build)"],
+    "values": ["Multi-stage build", "1 of 1 Dockerfiles use multi-stage builds"],
+    "script_output": {
+      "dockerfiles_found": 1,
+      "multi_stage_builds": 1,
+      "total_from_instructions": 2
+    }
+  },
+  "execution_time_seconds": 0,
+  "timestamp": "2026-03-25T05:56:17Z"
+}

@@ -1,0 +1,25 @@
+{
+  "input_name": "Profile Settings",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Application uses 3 Spring profiles (default, docker, test) with separate application-{profile}.properties files. The 'docker' profile is activated via SPRING_PROFILES_ACTIVE=docker in docker-compose.yml. The 'test' profile uses H2 in-memory DB. No @Profile-annotated beans found.",
+    "confidence": "high",
+    "evidence": [
+      "application.properties — default profile: Oracle DB at oracle-db:1521/FREEPDB1, DEBUG logging",
+      "application-docker.properties — docker profile: Oracle DB at oracle-db:1521:XE, INFO/WARN logging (optimized for production-like Docker)",
+      "application-test.properties — test profile: H2 in-memory DB (jdbc:h2:mem:testdb), create-drop DDL, SQL logging disabled",
+      "docker-compose.yml: SPRING_PROFILES_ACTIVE=docker activates docker profile in container",
+      "No @Profile annotations found in Java source code",
+      "No Maven profiles defined in pom.xml"
+    ],
+    "values": [
+      "3 profiles: default, docker, test",
+      "Profile activation: SPRING_PROFILES_ACTIVE env var (docker) or test classpath override (test)",
+      "Config format: .properties files (not YAML)",
+      "Key differences: database URL, logging levels, DDL strategy, test uses H2 vs Oracle"
+    ]
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:54:40Z"
+}

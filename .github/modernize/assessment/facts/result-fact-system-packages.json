@@ -1,0 +1,21 @@
+{
+  "input_name": "System Packages",
+  "analysis_method": "LLM",
+  "status": "not_applicable",
+  "result": {
+    "finding": "No additional system packages installed in the container. The final runtime image uses eclipse-temurin:8-jre as-is with no apt-get, apk, or yum package installations in the Dockerfile.",
+    "confidence": "high",
+    "evidence": [
+      "Dockerfile final stage: no apt-get install, apt install, apk add, yum install, or dnf install commands",
+      "Dockerfile build stage: no package installation commands (Maven already included in maven:3.9.6-eclipse-temurin-8 base)",
+      "Only instructions in final stage: WORKDIR, COPY --from=build, EXPOSE, ENV, ENTRYPOINT"
+    ],
+    "values": [
+      "No additional system packages installed",
+      "Package manager: none used",
+      "Packages available: those bundled in eclipse-temurin:8-jre base image only"
+    ]
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:55:40Z"
+}

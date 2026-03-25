@@ -1,0 +1,25 @@
+{
+  "input_name": "Communication Protocols",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "HTTP is the only inter-service communication protocol used. The application exposes HTTP endpoints via Spring MVC @Controller classes. JDBC (TCP/1521) is used internally for Oracle DB access within the Docker network. No gRPC, WebSocket, or message queue protocols detected.",
+    "confidence": "high",
+    "evidence": [
+      "HomeController: @Controller with GET / and POST /upload endpoints",
+      "DetailController: @Controller with GET /detail/{id} and POST /detail/{id}/delete endpoints",
+      "PhotoFileController: @Controller with GET /photo/{id} for BLOB serving",
+      "No .proto files found (no gRPC)",
+      "No RabbitMQ, Kafka, or WebSocket dependencies in pom.xml",
+      "Oracle DB accessed via JDBC over TCP port 1521 (internal Docker network only)"
+    ],
+    "values": [
+      "HTTP (port 8080) — primary protocol for client-server communication",
+      "Spring MVC @Controller (server-side rendering with Thymeleaf + JSON response for uploads)",
+      "JDBC over TCP (port 1521) — internal Oracle DB connection only",
+      "No gRPC, no message queues, no WebSocket"
+    ]
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:52:30Z"
+}

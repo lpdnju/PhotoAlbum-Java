@@ -1,0 +1,25 @@
+{
+  "input_name": "Language Dependencies",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Java Maven project with 9 declared dependencies (7 compile/runtime, 2 test-only) defined in pom.xml and resolved in the Docker build stage via 'mvn dependency:go-offline'. Only the fat JAR is copied to the final image.",
+    "confidence": "high",
+    "evidence": [
+      "Dockerfile build stage: COPY pom.xml + RUN mvn dependency:go-offline -B (pre-fetches all dependencies)",
+      "Dockerfile build stage: RUN mvn clean package -DskipTests (packages into fat JAR with all deps bundled)",
+      "Dockerfile final stage: COPY --from=build /app/target/photo-album-*.jar app.jar (only JAR, not pom.xml)",
+      "pom.xml: 9 declared dependencies managed by spring-boot-starter-parent 2.7.18 BOM"
+    ],
+    "values": [
+      "Dependency file: pom.xml (Maven)",
+      "Total declared dependencies: 9 (7 compile/runtime + 2 test scope)",
+      "Runtime deps: spring-boot-starter-web, spring-boot-starter-thymeleaf, spring-boot-starter-data-jpa, ojdbc8, spring-boot-starter-validation, commons-io 2.11.0, spring-boot-starter-json",
+      "Optional dev dep: spring-boot-devtools",
+      "Test deps (not in final image): spring-boot-starter-test, h2",
+      "Dependency management: Spring Boot BOM 2.7.18"
+    ]
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:55:50Z"
+}

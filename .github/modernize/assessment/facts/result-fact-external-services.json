@@ -1,0 +1,27 @@
+{
+  "input_name": "External Services",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "Oracle Database Free (23ai)",
+    "confidence": "high",
+    "evidence": [
+      "docker-compose.yml: oracle-db service using image gvenzl/oracle-free:latest",
+      "application.properties: spring.datasource.url=jdbc:oracle:thin:@oracle-db:1521/FREEPDB1",
+      "application.properties: spring.datasource.driver-class-name=oracle.jdbc.OracleDriver",
+      "pom.xml: com.oracle.database.jdbc:ojdbc8 (runtime dependency)",
+      "application.properties: spring.jpa.database-platform=org.hibernate.dialect.OracleDialect"
+    ],
+    "values": [
+      "Oracle Database Free 23ai",
+      "JDBC connection on port 1521",
+      "No Redis, no message queue, no search service"
+    ],
+    "script_output": {
+      "services": ["Oracle Database"],
+      "count": 1
+    }
+  },
+  "execution_time_seconds": 1,
+  "timestamp": "2026-03-25T05:53:40Z"
+}

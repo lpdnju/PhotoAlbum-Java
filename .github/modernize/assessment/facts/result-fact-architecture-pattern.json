@@ -1,0 +1,34 @@
+{
+  "input_name": "Architecture Pattern",
+  "analysis_method": "Hybrid",
+  "status": "success",
+  "result": {
+    "finding": "Layered Monolith with MVC pattern — single Spring Boot application with clear separation into Controller, Service, Repository, and Model layers, using Thymeleaf for server-side rendering.",
+    "confidence": "high",
+    "evidence": [
+      "Single @SpringBootApplication entry point (PhotoAlbumApplication.java)",
+      "Single deployable JAR, single docker-compose app service",
+      "Clear package structure: controller/, service/, repository/, model/, util/",
+      "Spring MVC @Controller classes with Thymeleaf templates (Views layer)",
+      "Service interface + implementation pattern (PhotoService/PhotoServiceImpl)",
+      "Spring Data JPA Repository (PhotoRepository)",
+      "No service discovery, API gateway, or message broker patterns found",
+      "No Eureka, Zuul, Kafka, or RabbitMQ dependencies in pom.xml"
+    ],
+    "values": [
+      "Layered Monolith",
+      "MVC (Model-View-Controller)",
+      "Single deployable unit"
+    ],
+    "architecture_details": {
+      "pattern": "Layered Monolith with MVC",
+      "service_count": 1,
+      "has_service_discovery": false,
+      "has_api_gateway": false,
+      "has_message_broker": false,
+      "layers": ["Controller (Presentation)", "Service (Business Logic)", "Repository (Data Access)", "Model (Entity/DTO)"]
+    }
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:52:40Z"
+}

@@ -1,0 +1,15 @@
+{
+  "task_id": "025",
+  "input_name": "Health Checks",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "docker-compose healthcheck",
+    "confidence": "high",
+    "evidence": ["/home/runner/work/PhotoAlbum-Java/PhotoAlbum-Java/docker-compose.yml: docker-compose healthcheck configured"],
+    "values": ["docker-compose healthcheck"],
+    "script_output": { "health_checks": ["docker-compose healthcheck"] }
+  },
+  "execution_time_seconds": 0,
+  "timestamp": "2026-03-25T05:59:11Z"
+}

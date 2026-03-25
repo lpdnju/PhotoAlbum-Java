@@ -1,0 +1,28 @@
+{
+  "input_name": "Servlet Container",
+  "analysis_method": "LLM",
+  "status": "success",
+  "result": {
+    "finding": "Spring Boot 2.7.18 application with embedded Apache Tomcat 9.x (Servlet 4.0 / Java EE 8). Packaged as a self-contained JAR with no external application server required. No container-specific configuration or web.xml present.",
+    "confidence": "high",
+    "evidence": [
+      "pom.xml: spring-boot-starter-web dependency (includes tomcat-embed-core transitively)",
+      "pom.xml: <packaging>jar</packaging> — fat JAR deployment, not WAR",
+      "Spring Boot 2.7.18 → embedded Tomcat 9.0.x → Servlet API 4.0 (javax.servlet namespace)",
+      "No WEB-INF/web.xml found (annotation-based configuration, not deployment descriptor)",
+      "No container-specific config files: no weblogic.xml, jboss-web.xml, glassfish-web.xml",
+      "No custom servlet or filter implementations (uses Spring MVC DispatcherServlet auto-configured by Spring Boot)",
+      "No @WebServlet, @WebFilter, or @WebListener annotations in source code"
+    ],
+    "values": [
+      "Servlet API: 4.0 (javax.servlet)",
+      "Java EE: 8",
+      "Container: embedded Apache Tomcat 9.0.x",
+      "Deployment model: self-contained JAR (embedded container)",
+      "Custom servlets: 0 (Spring MVC DispatcherServlet only)",
+      "No container-specific features or vendor lock-in"
+    ]
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:56:00Z"
+}

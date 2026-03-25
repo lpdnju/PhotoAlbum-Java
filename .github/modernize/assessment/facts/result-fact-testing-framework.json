@@ -1,0 +1,27 @@
+{
+  "input_name": "Testing Framework",
+  "analysis_method": "Code",
+  "status": "success",
+  "result": {
+    "finding": "JUnit 5 (Jupiter) with Spring Boot Test — 1 test file with a single context loading smoke test.",
+    "confidence": "high",
+    "evidence": [
+      "pom.xml: spring-boot-starter-test (test scope) — includes JUnit 5 Jupiter, Mockito, AssertJ",
+      "pom.xml: h2database (test scope) — in-memory DB for test isolation",
+      "src/test/java/com/photoalbum/PhotoAlbumApplicationTests.java: @SpringBootTest @ActiveProfiles('test') with @Test contextLoads()",
+      "application-test.properties: H2 in-memory database configured for test profile"
+    ],
+    "values": [
+      "JUnit 5 (Jupiter) via spring-boot-starter-test",
+      "Spring Boot Test (@SpringBootTest)",
+      "H2 in-memory database (test isolation)",
+      "1 test file, 1 test method (contextLoads smoke test)"
+    ],
+    "script_output": {
+      "frameworks_detected": ["JUnit 5", "Spring Boot Test"],
+      "test_files_count": 1
+    }
+  },
+  "execution_time_seconds": 2,
+  "timestamp": "2026-03-25T05:55:30Z"
+}
