@@ -1,43 +1,42 @@
-﻿# Modernization Assessment Summary
+# Application Assessment Summary
 
-**Target Azure Services**: Azure App Service, Azure Container Apps, Azure Kubernetes Service
+## Overview
+- **Assessment Date**: 2026-03-27T04:50:53.455553866Z
+- **Status**: Complete
+- **Privacy Mode**: Protected
 
-## Overall Statistics
+## Target Platforms
+- Azure Kubernetes Service
+- Azure App Service
+- Azure Container Apps
 
-**Total Applications**: 1
+## Summary
+| Metric | Count |
+|--------|-------|
+| Total Issues | 7 |
+| Total Incidents | 26 |
+| Total Effort (Story Points) | 158 |
 
-**Name: photo-album**
-- Mandatory: 3 issues
-- Potential: 4 issues
-- Optional: 0 issues
+## Issues by Severity
+| Severity | Count |
+|----------|-------|
+| Mandatory | 13 |
+| Potential | 13 |
+| Optional | 0 |
+| Information | 0 |
 
-> **Severity Levels Explained:**
-> - **Mandatory**: The issue has to be resolved for the migration to be successful.
-> - **Potential**: This issue may be blocking in some situations but not in others. These issues should be reviewed to determine whether a change is required or not.
-> - **Optional**: The issue discovered is real issue fixing which could improve the app after migration, however it is not blocking.
+## Issues by Category
+| Category | Count |
+|----------|-------|
+| database-migration | 6 |
+| framework-upgrade | 10 |
+| java-version-upgrade | 3 |
+| local-credential | 3 |
+| spring-migration | 4 |
 
-## Applications Profile
-
-### Name: photo-album
-- **JDK Version**: 1.8
+## Project Details
+- **Application**: photo-album
+- **Java Version**: 1.8
 - **Frameworks**: Spring Boot, Spring
-- **Languages**: Java
-- **Build Tools**: Maven
+- **Build Tool**: Maven
 
-**Key Findings**:
-- **Mandatory Issues (13 locations)**:
-  - <!--ruleid=azure-java-version-02000-->Legacy Java version (3 locations found)
-  - <!--ruleid=spring-boot-to-azure-spring-boot-version-01000-->Spring Boot Version is End of OSS Support (7 locations found)
-  - <!--ruleid=spring-framework-version-01000-->Spring Framework Version End of OSS Support (3 locations found)
-- **Potential Issues (13 locations)**:
-  - <!--ruleid=azure-password-01000-->Password found in configuration file (3 locations found)
-  - <!--ruleid=spring-boot-to-azure-port-01000-->Server port configuration found (2 locations found)
-  - <!--ruleid=spring-boot-to-azure-restricted-config-01000-->Restricted configurations found (2 locations found)
-  - <!--ruleid=azure-database-microsoft-oracle-07000-->Oracle database found (6 locations found)
-
-## Next Steps
-
-For comprehensive migration guidance and best practices, visit:
-- [GitHub Copilot modernization](https://aka.ms/ghcp-appmod)
-
-Have questions or suggestions? [Share your feedback](https://aka.ms/ghcp-appmod/feedback)

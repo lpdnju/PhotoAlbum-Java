@@ -2,20 +2,20 @@
   "version": "1.0.0",
   "producer": "Java AppCAT CLI",
   "metadata": {
-    "analysisStartTime": "2026-03-27T04:43:15.1078675Z",
-    "analysisEndTime": "2026-03-27T04:44:13.9068647Z",
+    "analysisStartTime": "2026-03-27T04:50:53.455553866Z",
+    "analysisEndTime": "2026-03-27T04:51:33.364515487Z",
     "status": "Complete",
     "privacyMode": "Protected",
     "privacyModeHelpUrl": "https://aka.ms/appcat-privacy-mode",
     "targetIds": [
+      "azure-aks",
       "azure-appservice",
-      "azure-container-apps",
-      "azure-aks"
+      "azure-container-apps"
     ],
     "targetDisplayNames": [
+      "Azure Kubernetes Service",
       "Azure App Service",
-      "Azure Container Apps",
-      "Azure Kubernetes Service"
+      "Azure Container Apps"
     ],
     "capabilities": [],
     "os": []
@@ -62,86 +62,8 @@
       },
       "incidents": [
         {
-          "ruleId": "azure-password-01000",
-          "incidentId": "bdefb010-cbcc-44d1-a98a-6b7ed43adbe3",
-          "location": "src/test/resources/application-test.properties",
-          "locationKind": "File",
-          "line": 5,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 3,
-              "severity": "potential"
-            },
-            "azure-appservice": {
-              "effort": 3,
-              "severity": "potential"
-            },
-            "azure-container-apps": {
-              "effort": 3,
-              "severity": "potential"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "azure-password-01000",
-          "incidentId": "6315eb2b-2ef5-4d73-bc39-f50ffee64e52",
-          "location": "src/main/resources/application.properties",
-          "locationKind": "File",
-          "line": 12,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 3,
-              "severity": "potential"
-            },
-            "azure-appservice": {
-              "effort": 3,
-              "severity": "potential"
-            },
-            "azure-container-apps": {
-              "effort": 3,
-              "severity": "potential"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "azure-password-01000",
-          "incidentId": "13d41643-0f32-4d9e-b99c-5b6c0556085d",
-          "location": "src/main/resources/application-docker.properties",
-          "locationKind": "File",
-          "line": 4,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 3,
-              "severity": "potential"
-            },
-            "azure-appservice": {
-              "effort": 3,
-              "severity": "potential"
-            },
-            "azure-container-apps": {
-              "effort": 3,
-              "severity": "potential"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
           "ruleId": "azure-java-version-02000",
-          "incidentId": "e3754c0d-b394-429f-9ae9-4c1a3a50a042",
+          "incidentId": "f14eec1c-6502-446c-9a27-2385e0ec702d",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 24,
@@ -167,7 +89,7 @@
         },
         {
           "ruleId": "azure-java-version-02000",
-          "incidentId": "08f2b4b9-b590-45a0-b6c0-b170b106b76f",
+          "incidentId": "c44201b1-6fee-43c1-8a6b-1aa58f93e0b9",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 25,
@@ -193,7 +115,7 @@
         },
         {
           "ruleId": "azure-java-version-02000",
-          "incidentId": "c7284cdd-5df6-49cb-8a8b-35289b84073f",
+          "incidentId": "de426c9b-a492-4fdb-a98d-ee1f00f34fb9",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 26,
@@ -219,10 +141,10 @@
         },
         {
           "ruleId": "spring-boot-to-azure-port-01000",
-          "incidentId": "174c6178-cceb-457d-b5c8-ebb05ef251ac",
-          "location": "src/main/resources/application.properties",
+          "incidentId": "8aee84b0-74b0-465a-8401-9a75f6cb21a7",
+          "location": "src/main/resources/application-docker.properties",
           "locationKind": "File",
-          "line": 2,
+          "line": 24,
           "column": 0,
           "targets": {
             "azure-aks": {
@@ -245,10 +167,10 @@
         },
         {
           "ruleId": "spring-boot-to-azure-port-01000",
-          "incidentId": "d4510e31-e50c-4cd6-9a35-df95e46174d2",
-          "location": "src/main/resources/application-docker.properties",
+          "incidentId": "da28727f-a7bb-43e8-b1e5-bded108eab69",
+          "location": "src/main/resources/application.properties",
           "locationKind": "File",
-          "line": 24,
+          "line": 2,
           "column": 0,
           "targets": {
             "azure-aks": {
@@ -271,7 +193,7 @@
         },
         {
           "ruleId": "spring-boot-to-azure-restricted-config-01000",
-          "incidentId": "cde6b096-ccd4-43c2-89c0-47e73ed5bb05",
+          "incidentId": "088636a8-5143-46f4-9d5b-b7135f69908c",
           "location": "src/main/resources/application-docker.properties",
           "locationKind": "File",
           "line": 24,
@@ -289,7 +211,7 @@
         },
         {
           "ruleId": "spring-boot-to-azure-restricted-config-01000",
-          "incidentId": "10c90d5a-5df3-4c7b-89a6-06354c940cd1",
+          "incidentId": "0d6fd4f5-111b-4349-835a-60a44c851faf",
           "location": "src/main/resources/application.properties",
           "locationKind": "File",
           "line": 2,
@@ -307,111 +229,7 @@
         },
         {
           "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "b83757cd-54f2-4ef3-8a28-81fba421bd2d",
-          "location": "pom.xml",
-          "locationKind": "File",
-          "line": 59,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-appservice": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-container-apps": {
-              "effort": 8,
-              "severity": "mandatory"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "fa3fa7f1-9247-4f7e-b1a2-01e69e60d15d",
-          "location": "pom.xml",
-          "locationKind": "File",
-          "line": 40,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-appservice": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-container-apps": {
-              "effort": 8,
-              "severity": "mandatory"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "1ad970c9-5333-4ba3-b944-8a061590cde5",
-          "location": "pom.xml",
-          "locationKind": "File",
-          "line": 34,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-appservice": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-container-apps": {
-              "effort": 8,
-              "severity": "mandatory"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "f5979986-83b7-475a-a8e9-576c25161232",
-          "location": "pom.xml",
-          "locationKind": "File",
-          "line": 72,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-appservice": {
-              "effort": 8,
-              "severity": "mandatory"
-            },
-            "azure-container-apps": {
-              "effort": 8,
-              "severity": "mandatory"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "231801fd-63c8-4196-9c6d-18614dba61f0",
+          "incidentId": "e9d5cd2a-6f80-43e7-a820-d50ed52e7c7e",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 78,
@@ -437,7 +255,59 @@
         },
         {
           "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "807458d9-71a9-41be-9b51-20ecbedba3fc",
+          "incidentId": "827ecdc9-7546-47de-bf76-f95b0650861d",
+          "location": "pom.xml",
+          "locationKind": "File",
+          "line": 34,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-appservice": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-container-apps": {
+              "effort": 8,
+              "severity": "mandatory"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
+          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+          "incidentId": "78d7deb5-0476-44c0-8179-1eec69a0e82d",
+          "location": "pom.xml",
+          "locationKind": "File",
+          "line": 40,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-appservice": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-container-apps": {
+              "effort": 8,
+              "severity": "mandatory"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
+          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+          "incidentId": "4eb40be0-b7eb-478e-9ae7-ae46468b25d3",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 92,
@@ -463,7 +333,7 @@
         },
         {
           "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
-          "incidentId": "e13844d5-57b5-4d1c-b1db-4e32b87d2977",
+          "incidentId": "242c5699-42cb-4ed4-b2fa-6d9b3306c874",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 46,
@@ -488,8 +358,60 @@
           ]
         },
         {
+          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+          "incidentId": "99235c8a-72c1-458d-a7d3-9afe9307f742",
+          "location": "pom.xml",
+          "locationKind": "File",
+          "line": 72,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-appservice": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-container-apps": {
+              "effort": 8,
+              "severity": "mandatory"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
+          "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+          "incidentId": "068139e0-d45d-46f0-b1a9-5e0d012b9e27",
+          "location": "pom.xml",
+          "locationKind": "File",
+          "line": 59,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-appservice": {
+              "effort": 8,
+              "severity": "mandatory"
+            },
+            "azure-container-apps": {
+              "effort": 8,
+              "severity": "mandatory"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
           "ruleId": "azure-database-microsoft-oracle-07000",
-          "incidentId": "888da547-881e-4b68-b1fa-3b7859607308",
+          "incidentId": "492108e2-7ed3-4836-8960-3524fe6960d4",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 52,
@@ -515,7 +437,7 @@
         },
         {
           "ruleId": "azure-database-microsoft-oracle-07000",
-          "incidentId": "fa497b2b-b3cd-4d61-b992-c6cc0cf5c188",
+          "incidentId": "88283e99-d14a-46c3-9b3e-6c697943139d",
           "location": "docker-compose.yml",
           "locationKind": "File",
           "line": 32,
@@ -541,7 +463,7 @@
         },
         {
           "ruleId": "azure-database-microsoft-oracle-07000",
-          "incidentId": "8e832b91-158f-4b5b-b72e-ba9334d8cbf0",
+          "incidentId": "bf2d7a3d-0606-49ef-9714-ea99607dff22",
           "location": "src/main/resources/application-docker.properties",
           "locationKind": "File",
           "line": 2,
@@ -567,7 +489,7 @@
         },
         {
           "ruleId": "azure-database-microsoft-oracle-07000",
-          "incidentId": "a93a5a0f-91a0-4fc9-8d6f-5df63bdc0300",
+          "incidentId": "e90f59a9-0090-475a-b430-bf04d410f408",
           "location": "src/main/resources/application.properties",
           "locationKind": "File",
           "line": 10,
@@ -593,33 +515,7 @@
         },
         {
           "ruleId": "azure-database-microsoft-oracle-07000",
-          "incidentId": "87638800-90e7-42ab-8c91-ebc787a31bbc",
-          "location": "src/main/resources/application.properties",
-          "locationKind": "File",
-          "line": 13,
-          "column": 0,
-          "targets": {
-            "azure-aks": {
-              "effort": 8,
-              "severity": "potential"
-            },
-            "azure-appservice": {
-              "effort": 8,
-              "severity": "potential"
-            },
-            "azure-container-apps": {
-              "effort": 8,
-              "severity": "potential"
-            }
-          },
-          "labels": [
-            "type=violation",
-            "ruleset=azure/springboot"
-          ]
-        },
-        {
-          "ruleId": "azure-database-microsoft-oracle-07000",
-          "incidentId": "63d246a7-3c67-493d-8110-632cd197b0f4",
+          "incidentId": "c22ab362-ddcf-4816-a670-6cdb5f5372fb",
           "location": "src/main/resources/application-docker.properties",
           "locationKind": "File",
           "line": 5,
@@ -644,8 +540,112 @@
           ]
         },
         {
+          "ruleId": "azure-database-microsoft-oracle-07000",
+          "incidentId": "ff5bde22-a083-43fc-a6d1-66d67871dad5",
+          "location": "src/main/resources/application.properties",
+          "locationKind": "File",
+          "line": 13,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 8,
+              "severity": "potential"
+            },
+            "azure-appservice": {
+              "effort": 8,
+              "severity": "potential"
+            },
+            "azure-container-apps": {
+              "effort": 8,
+              "severity": "potential"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
+          "ruleId": "azure-password-01000",
+          "incidentId": "ddffb790-26f1-403f-9cc1-b2483ecf1085",
+          "location": "src/test/resources/application-test.properties",
+          "locationKind": "File",
+          "line": 5,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "azure-appservice": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "azure-container-apps": {
+              "effort": 3,
+              "severity": "potential"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
+          "ruleId": "azure-password-01000",
+          "incidentId": "314a9889-3559-4ae8-94dd-fd99fd01b13b",
+          "location": "src/main/resources/application-docker.properties",
+          "locationKind": "File",
+          "line": 4,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "azure-appservice": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "azure-container-apps": {
+              "effort": 3,
+              "severity": "potential"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
+          "ruleId": "azure-password-01000",
+          "incidentId": "3cf330b4-a42a-4588-9795-e2fa837bd726",
+          "location": "src/main/resources/application.properties",
+          "locationKind": "File",
+          "line": 12,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "azure-appservice": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "azure-container-apps": {
+              "effort": 3,
+              "severity": "potential"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=azure/springboot"
+          ]
+        },
+        {
           "ruleId": "spring-framework-version-01000",
-          "incidentId": "1922215e-f5ee-4549-a745-18cc11d05989",
+          "incidentId": "46c142e1-d4cf-47ed-8a88-1576e51e074e",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 34,
@@ -671,7 +671,7 @@
         },
         {
           "ruleId": "spring-framework-version-01000",
-          "incidentId": "3165669c-3fcb-46ff-b69f-7bba0b2f4ac6",
+          "incidentId": "76f78237-f4b6-4d67-ad95-9d22900d6655",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 46,
@@ -697,7 +697,7 @@
         },
         {
           "ruleId": "spring-framework-version-01000",
-          "incidentId": "74155051-a684-4cab-b23f-b00ebd84103a",
+          "incidentId": "223bbd7c-5b8f-4123-9c69-0bbf69c4d6a5",
           "location": "pom.xml",
           "locationKind": "File",
           "line": 78,
