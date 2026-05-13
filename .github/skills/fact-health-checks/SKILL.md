@@ -8,59 +8,11 @@ description: Identify health check configurations (HTTP checks, command checks)
 ## Purpose
 Identify health check and readiness probe configurations for monitoring application health.
 
-## Automated Analysis
-
-This SKILL includes executable scripts that automatically detect health check configurations.
-
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
-```
-
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
-```
-
-### Detection Sources
-
-- **Dockerfile**: HEALTHCHECK instructions
-- **docker-compose**: healthcheck sections
-- **Kubernetes**: livenessProbe, readinessProbe, startupProbe
-
-### Script Output Format
-
-```json
-{
-  "input_name": "Health Checks",
-  "analysis_method": "Code",
-  "status": "success",
-  "result": {
-    "finding": "Dockerfile HEALTHCHECK, Kubernetes probes",
-    "confidence": "high",
-    "evidence": [
-      "Dockerfile: HEALTHCHECK instruction found",
-      "k8s/deployment.yaml: Kubernetes probes configured"
-    ],
-    "values": ["Dockerfile HEALTHCHECK", "Kubernetes probes"],
-    "script_output": {
-      "health_checks": ["Dockerfile HEALTHCHECK", "Kubernetes probes"]
-    }
-  },
-  "execution_time_seconds": 0.3,
-  "timestamp": "2026-02-28T10:30:00Z"
-}
-```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
+## Target Files/Locations
 - **/Dockerfile (HEALTHCHECK instruction)
 - **/docker-compose*.yml (healthcheck section)
 - **/k8s/**/*.yaml (livenessProbe, readinessProbe, startupProbe)
-- Application code (health endpoints)
+- **/*.{java,cs,js,py,go} (health endpoints)
 
 ## Example Patterns
 - `HEALTHCHECK CMD curl -f http://localhost/ || exit 1`
@@ -135,7 +87,7 @@ Common frameworks:
 ```json
 {
   "input_name": "Health Checks",
-  "analysis_method": "Code",
+  "analysis_method": "LLM",
   "status": "success|not_applicable",
   "result": {
     "finding": "{Health checks summary}",

@@ -8,63 +8,10 @@ description: Identify regulatory compliance needs (GDPR, HIPAA, PCI-DSS, SOX)
 ## Purpose
 Identify regulatory compliance requirements the application must meet based on data handling, industry, and security measures.
 
-## Automated Analysis
-
-This SKILL includes executable scripts that automatically scan for compliance requirements.
-
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
-```
-
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
-```
-
-### Detected Compliance Standards
-
-- GDPR (General Data Protection Regulation)
-- HIPAA (Health Insurance Portability and Accountability Act)
-- PCI-DSS (Payment Card Industry Data Security Standard)
-- SOX (Sarbanes-Oxley)
-- ISO 27001
-- SOC 2
-
-### Script Output Format
-
-```json
-{
-  "input_name": "Compliance Requirements",
-  "analysis_method": "Code",
-  "status": "success",
-  "result": {
-    "finding": "GDPR, HIPAA",
-    "confidence": "high",
-    "evidence": [
-      "README.md: GDPR",
-      "SECURITY.md: HIPAA",
-      "UserModel.java: GDPR/PII in code"
-    ],
-    "values": ["GDPR", "HIPAA"],
-    "script_output": {
-      "compliance_requirements": ["GDPR", "HIPAA"]
-    }
-  },
-  "execution_time_seconds": 0.8,
-  "timestamp": "2026-02-28T10:30:00Z"
-}
-```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-- **/README.md, **/docs/**/*.md (compliance section)
-- **/COMPLIANCE.md, **/SECURITY.md
-- **/privacy-policy.md
-- **/*.{java,cs,js,py} (data handling, encryption)
+## Target Files/Locations
+- **/README.md, **/COMPLIANCE.md, **/SECURITY.md, **/privacy-policy.md
+- **/docs/**/*.md
+- **/*.{java,cs,js,py,ts} (data handling, encryption)
 - **/application.{properties,yml} (audit logging)
 
 ## Example Patterns
@@ -160,7 +107,7 @@ Cross-reference with security-implementation analysis
 ```json
 {
   "input_name": "Compliance Requirements",
-  "analysis_method": "Code",
+  "analysis_method": "LLM",
   "status": "success|not_applicable",
   "result": {
     "finding": "{Compliance summary}",

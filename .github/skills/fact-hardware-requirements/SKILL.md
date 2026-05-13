@@ -8,61 +8,11 @@ description: Identify minimum hardware requirements (RAM, CPU, disk)
 ## Purpose
 Extract minimum hardware requirements from documentation, resource configurations, and deployment files.
 
-## Automated Analysis
-
-This SKILL includes executable scripts that automatically extract hardware requirements.
-
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
-```
-
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
-```
-
-### Detection Sources
-
-- **Documentation**: README.md, INSTALL.md, REQUIREMENTS.md (searches for RAM, CPU, disk mentions)
-- **docker-compose**: mem_limit, cpus
-- **Kubernetes**: resources.requests, resources.limits
-
-### Script Output Format
-
-```json
-{
-  "input_name": "Hardware Requirements",
-  "analysis_method": "Code",
-  "status": "success",
-  "result": {
-    "finding": "RAM: 4GB, CPU: 2 cores, Disk: 10GB",
-    "confidence": "high",
-    "evidence": [
-      "README.md: 4GB RAM minimum",
-      "README.md: 2 CPU cores recommended"
-    ],
-    "values": ["RAM: 4GB", "CPU: 2 cores", "Disk: 10GB"],
-    "script_output": {
-      "ram": "4GB",
-      "cpu": "2 cores",
-      "disk": "10GB"
-    }
-  },
-  "execution_time_seconds": 0.6,
-  "timestamp": "2026-02-28T10:30:00Z"
-}
-```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-- **/README.md, **/docs/**/*.md (system requirements)
+## Target Files/Locations
+- **/README.md, **/INSTALL.md, **/REQUIREMENTS.md (system requirements)
+- **/docs/**/*.md (hardware mentions)
 - **/docker-compose*.yml (resource limits)
 - **/k8s/**/*.yaml (resource requests/limits)
-- **/INSTALL.md, **/REQUIREMENTS.md
 
 ## Example Patterns
 - "4GB RAM minimum"
@@ -142,7 +92,7 @@ If database used, estimate:
 ```json
 {
   "input_name": "Hardware Requirements",
-  "analysis_method": "Code",
+  "analysis_method": "LLM",
   "status": "success|not_applicable",
   "result": {
     "finding": "{Hardware summary}",

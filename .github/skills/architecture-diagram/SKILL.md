@@ -5,7 +5,7 @@ description: Generate architecture diagram with component relationship details f
 
 # Architecture Diagram
 
-This skill generates a two-layer architecture visualization: a high-level application architecture diagram and a detailed component relationship diagram. Produce both in a single pass and save to `.github/modernize/assessment/architecture-diagram.md`.
+This skill generates a two-layer architecture visualization: a high-level application architecture diagram and a detailed component relationship diagram. Produce both in a single pass and save to `.github/modernize/assessment/engines/architecture-diagram.md`.
 
 ## Input Parameters
 
@@ -28,7 +28,7 @@ Create a **Mermaid `flowchart TD`** diagram showing:
 - External service integrations
 - Data flow with descriptive arrow labels
 
-**Do NOT include**: individual classes/methods, migration directions, or any text/tables/lists outside the Mermaid block.
+**Do NOT include**: individual classes/methods or migration directions.
 
 Example:
 
@@ -82,7 +82,7 @@ Create a **Mermaid `flowchart LR`** diagram showing:
 - Interaction arrows with brief labels
 - Cross-cutting concerns
 
-**Do NOT include**: method signatures, private helpers, external dependencies (covered by dependency-map skill), or any text outside the Mermaid block.
+**Do NOT include**: method signatures, private helpers, or external dependencies (covered by dependency-map skill).
 
 Example:
 
@@ -117,9 +117,21 @@ flowchart LR
     LogMiddleware -.->|"wraps"| Presentation
 ~~~
 
-### Step 5: Save Output
+### Step 5: Write Textual Explanations
 
-Save the combined output to `.github/modernize/assessment/architecture-diagram.md` with this exact structure:
+For each diagram, write accompanying prose and tables that help readers understand the architecture without needing to parse the diagram alone:
+
+**For Application Architecture (Layer 1):**
+- **Technology Stack Summary table**: Layer | Technology | Version | Purpose (e.g., Presentation | ASP.NET MVC 5 | 5.2.7 | Server-side web framework)
+- **Data Storage & External Services**: A short paragraph describing what databases, caches, message brokers, or external APIs are used and how they fit into the architecture
+- **Key Architectural Decisions**: 1-3 bullet points on notable patterns (e.g., "Uses repository pattern with EF6 for data access", "Autofac provides DI with module-based registration")
+
+**For Component Relationships (Layer 2):**
+- **Component Inventory table**: Component | Layer | Type | Responsibility (e.g., CatalogController | Presentation | MVC Controller | Handles catalog browsing and CRUD)
+
+### Step 6: Save Output
+
+Save the combined output to `.github/modernize/assessment/engines/architecture-diagram.md` with this exact structure:
 
 ```
 # Architecture Diagram
@@ -130,12 +142,26 @@ A brief introduction (1-2 sentences).
 
 < Layer 1 Mermaid flowchart TD here >
 
+### Technology Stack Summary
+
+[Table: Layer | Technology | Version | Purpose]
+
+### Data Storage & External Services
+
+[Short paragraph on databases, caches, external APIs]
+
+### Key Architectural Decisions
+
+[1-3 bullet points on notable patterns]
+
 ## Component Relationships
 
 < Layer 2 Mermaid flowchart LR here >
-```
 
-**The output file must contain ONLY the heading, one brief intro line, and two Mermaid diagram blocks. No other text, tables, or lists.**
+### Component Inventory
+
+[Table: Component | Layer | Type | Responsibility]
+```
 
 ## Scaling Rules
 
@@ -160,6 +186,7 @@ A brief introduction (1-2 sentences).
 ## Success Criteria
 
 - Layer 1 Mermaid diagram renders correctly showing architecture with technology names, data storage, and external dependencies
+- Layer 1 is accompanied by Technology Stack Summary table, Data Storage & External Services paragraph, and Key Architectural Decisions
 - Layer 2 Mermaid diagram renders correctly showing component interactions grouped by architectural layer
-- Output file contains only headings and Mermaid blocks — no extra prose, tables, or lists
-- File saved to `.github/modernize/assessment/architecture-diagram.md`
+- Layer 2 is accompanied by Component Inventory table
+- File saved to `.github/modernize/assessment/engines/architecture-diagram.md`

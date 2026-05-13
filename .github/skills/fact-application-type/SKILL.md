@@ -8,54 +8,126 @@ description: Determine the type of application (Web App, API, Service, etc.)
 ## Purpose
 Identify the type of application based on code structure and dependencies.
 
-## Automated Analysis
+## Target Files/Locations
+- **/pom.xml, **/build.gradle, **/build.gradle.kts (Java)
+- **/*.csproj (C#/.NET)
+- **/package.json (Node.js)
+- **/requirements.txt, **/Pipfile, **/pyproject.toml (Python)
+- **/*.java, **/*.cs, **/*.js, **/*.ts, **/*.py (source code)
 
-This SKILL includes executable scripts that automatically determine the application type.
+## Analysis Steps
 
-### Usage
+### 1. Check Java Web Frameworks
+```
+Use Grep: "spring-boot-starter-web|@RestController|@RequestMapping|spring-boot-starter-webflux"
+Files: **/pom.xml, **/build.gradle, **/*.java
 
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
+Map findings:
+- spring-boot-starter-web / @RestController → REST API
+- spring-boot-starter-webflux → REST API (Reactive)
 ```
 
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
+### 2. Check Java gRPC
+```
+Use Grep: "grpc|io\\.grpc"
+Files: **/pom.xml, **/build.gradle, **/*.proto
+
+If found → gRPC Service
 ```
 
-### Detected Application Types
+### 3. Check .NET Project Type
+```
+Use Grep: "Microsoft\\.AspNetCore|Microsoft\\.NET\\.Sdk\\.Web"
+Files: **/*.csproj
 
-- **Web App / REST API**: Spring Boot, ASP.NET Core, Express, Flask, FastAPI
-- **gRPC Service**: gRPC dependencies detected
-- **Background Service**: BackgroundService, worker processes
-- **Batch Job**: Scheduled tasks, cron jobs
+Map findings:
+- Microsoft.NET.Sdk.Web / Microsoft.AspNetCore → Web App / REST API
+```
 
-### Script Output Format
+### 4. Check .NET gRPC
+```
+Use Grep: "Grpc\\.AspNetCore"
+Files: **/*.csproj
+
+If found → gRPC Service
+```
+
+### 5. Check .NET Background Service
+```
+Use Grep: "BackgroundService|Microsoft\\.Extensions\\.Hosting"
+Files: **/*.csproj, **/*.cs
+
+If found (and no web SDK) → Background Service
+```
+
+### 6. Check Node.js Frameworks
+```
+Use Grep: "express|fastify|koa|@nestjs|@grpc/grpc-js"
+Files: **/package.json
+
+Map findings:
+- express / fastify / koa / @nestjs → REST API / Web App
+- @grpc/grpc-js → gRPC Service
+```
+
+### 7. Check Python Frameworks
+```
+Use Grep: "flask|django|fastapi|tornado|grpcio"
+Files: **/requirements.txt, **/Pipfile, **/pyproject.toml
+
+Map findings:
+- flask / django / fastapi / tornado → REST API / Web App
+- grpcio → gRPC Service
+```
+
+### 8. Check for Batch/Job Indicators
+```
+Use Glob: **/cron*, **/*job*, **/*batch*, **/*scheduler*
+Use Grep: "@Scheduled|CronJob|BackgroundJob"
+Files: **/*.{java,cs,py}
+
+If no web framework found but batch patterns detected → Batch Job
+```
+
+## Confidence Determination
+
+### High Confidence
+- ✅ Web framework dependency clearly identified
+- ✅ REST/gRPC annotations in source code
+- **Example**: "REST API: Spring Boot with @RestController annotations"
+
+### Medium Confidence
+- ⚠️ Framework found but type ambiguous
+- **Example**: "ASP.NET Core project, could be Web App or API"
+
+### Low Confidence
+- ⚠️ No clear framework indicators
+- **Example**: "Unable to determine application type from available files"
+
+### Not Applicable
+- ❌ Library project with no entry point
+- **Example**: "Library/SDK project, no application type"
+
+## Output Format
 
 ```json
 {
   "input_name": "Application Type",
-  "analysis_method": "Code",
-  "status": "success",
+  "analysis_method": "LLM",
+  "status": "success|not_applicable",
   "result": {
-    "finding": "REST API",
-    "confidence": "high",
+    "finding": "{Application type}",
+    "confidence": "high|medium|low",
     "evidence": [
-      "Spring Boot REST found"
+      "{Framework dependencies}",
+      "{Annotations/decorators found}",
+      "{Project structure indicators}"
     ],
-    "values": ["REST API"],
-    "script_output": {
-      "application_type": "REST API"
-    }
+    "values": [
+      "{Type: REST API, Web App, gRPC Service, Background Service, Batch Job, etc.}"
+    ]
   },
-  "execution_time_seconds": 0.5,
-  "timestamp": "2026-02-28T10:30:00Z"
+  "execution_time_seconds": {elapsed},
+  "timestamp": "{ISO 8601}"
 }
 ```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-
-### 1. Check for Web Frameworks

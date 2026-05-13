@@ -12,38 +12,20 @@
 ```json
 {
   "$schema": "tasks-schema.json",
-  "description": ".NET version upgrade plan from .NET Framework 4.8 to .NET 10.0",
+  "description": ".NET version upgrade plan from .NET Framework 4.6.1 to .NET 10.0",
   "tasks": [
     {
       "type": "upgrade",
-      "id": "001-upgrade-sdk-style-conversion",
-      "description": "Convert ContosoUniversity.csproj to SDK-style project format",
-      "requirements": "Convert legacy non-SDK-style .csproj to modern SDK-style format. Do NOT change target framework. Remove packages.config after conversion. Verify project builds.",
-      "environmentConfiguration": null,
-      "skills": [{ "name": "sdk-style-conversion", "location": "builtin" }],
-      "successCriteria": {
-        "passBuild": "true",
-        "generateNewUnitTests": "false",
-        "generateNewIntegrationTests": "false",
-        "passUnitTests": "true",
-        "passIntegrationTests": "false",
-        "securityComplianceCheck": "false"
-      },
-      "status": "pending"
-    },
-    {
-      "type": "upgrade",
-      "id": "002-upgrade-target-framework-packages",
-      "description": "Update target framework to net10.0 and upgrade 26 NuGet packages",
-      "requirements": "Change TargetFramework to net10.0. Change Sdk to Microsoft.NET.Sdk.Web. Remove 10 packages included in framework. Remove 2 incompatible packages. Upgrade 22 packages to .NET 10.0 compatible versions. Address Microsoft.Data.SqlClient security vulnerability by upgrading to 6.1.4.",
+      "id": "001-upgrade-dotnet-to-net10",
+      "description": "Upgrade ContosoUniversity from .NET Framework 4.6.1 to .NET 10.0",
+      "reason": ".NET Framework 4.6.1 reached end of support on April 26, 2022 and does not meet the minimum .NET Framework 4.6.2 requirement for Azure SDK (.NET Standard 2.0) compatibility. Upgrading to .NET 10.0 LTS ensures long-term support, access to modern APIs, and full Azure SDK compatibility.",
+      "requirements": "Upgrade the project from .NET Framework 4.6.1 to .NET 10.0, including project file modernization, dependency updates, and API compatibility fixes.",
       "environmentConfiguration": null,
       "skills": [],
       "successCriteria": {
-        "passBuild": "false",
+        "passBuild": "true",
         "generateNewUnitTests": "false",
-        "generateNewIntegrationTests": "false",
-        "passUnitTests": "false",
-        "passIntegrationTests": "false",
+        "passUnitTests": "true",
         "securityComplianceCheck": "true"
       },
       "status": "pending"

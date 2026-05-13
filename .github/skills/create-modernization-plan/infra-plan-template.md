@@ -39,16 +39,10 @@ A complete list of Azure resources to be generated.
 
 **Description**: Generate IaC files to provision the required Azure resources.
 
-**Output**: ./infra/
+**Output**: Files of infrastructure as code
 
 **Skill**: [infrastructure-bicep-generation | infrastructure-terraform-generation]
 
 **Success Criteria**:
 - IaC files generated and validated
 - Resources provisioned successfully (if Provision=true)
-
----
-
-## Clarifications
-
-[Optional: Only list the most critical items that MUST be confirmed before provisioning. Keep it minimal.]

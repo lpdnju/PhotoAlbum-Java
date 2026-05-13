@@ -8,60 +8,85 @@ description: Check if Dockerfile uses multi-stage build pattern
 ## Purpose
 Determine if the project uses Docker multi-stage builds for image optimization.
 
-## Automated Analysis
+## Target Files/Locations
+- **/Dockerfile, **/Dockerfile.*, **/*.Dockerfile, **/Containerfile
 
-This SKILL includes executable scripts that automatically check for multi-stage Docker builds.
+## Analysis Steps
 
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
+### 1. Find Dockerfile(s)
+```
+Use Glob: **/Dockerfile, **/Dockerfile.*, **/*.Dockerfile, **/Containerfile
+List all matching files
 ```
 
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
+### 2. Count FROM Instructions
+```
+Use Grep: "^FROM\\s+"
+Files: (all Dockerfiles found in step 1)
+
+Count the number of FROM instructions per file:
+- 1 FROM = single-stage build
+- 2+ FROM = multi-stage build
 ```
 
-### Detection Logic
+### 3. Extract Named Stages
+```
+Use Grep: "^FROM\\s+.*\\s+[Aa][Ss]\\s+"
+Files: (all Dockerfiles found in step 1)
+Context: full line
 
-The scripts search for Dockerfile/Containerfile and count FROM instructions:
-- Multiple FROM statements = multi-stage build
-- Extracts named stages (FROM ... AS stage_name)
+Extract stage names from "FROM ... AS stage_name" patterns
+```
 
-### Script Output Format
+### 4. Verify Stage Usage
+```
+Use Grep: "--from="
+Files: (all Dockerfiles found in step 1)
+
+Check COPY --from=stage_name instructions to verify multi-stage usage
+```
+
+## Confidence Determination
+
+### High Confidence
+- ✅ Multiple FROM instructions with named stages
+- ✅ COPY --from= instructions present
+- **Example**: "Multi-stage build detected in Dockerfile with 3 stages (builder, tester, runtime)"
+
+### Medium Confidence
+- ⚠️ Multiple FROM instructions but no named stages
+- **Example**: "Multi-stage build with 2 unnamed stages"
+
+### Low Confidence
+- ⚠️ Single FROM instruction
+- **Example**: "Single-stage build, no optimization"
+
+### Not Applicable
+- ❌ No Dockerfile found
+- **Example**: "No Dockerfile or Containerfile found in project"
+
+## Output Format
 
 ```json
 {
   "input_name": "Multi-stage Build",
-  "analysis_method": "Code",
-  "status": "success",
+  "analysis_method": "LLM",
+  "status": "success|not_applicable",
   "result": {
-    "finding": "Multi-stage build detected in 1 Dockerfile",
-    "confidence": "high",
+    "finding": "{Multi-stage build summary}",
+    "confidence": "high|medium|low",
     "evidence": [
-      "Dockerfile: Multi-stage build with 3 stages (named stages: builder, tester)"
+      "{Dockerfile locations}",
+      "{FROM instruction count}",
+      "{Named stages}"
     ],
-    "values": ["Multi-stage build"],
-    "script_output": {
-      "dockerfiles_found": 1,
-      "multi_stage_builds": 1,
-      "total_from_instructions": 3
-    }
+    "values": [
+      "{Build type: Multi-stage or Single-stage}",
+      "{Stage count}",
+      "{Stage names if available}"
+    ]
   },
-  "execution_time_seconds": 0.2,
-  "timestamp": "2026-02-28T10:30:00Z"
+  "execution_time_seconds": {elapsed},
+  "timestamp": "{ISO 8601}"
 }
 ```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-
-### 1. Search for Dockerfile
-- **/Dockerfile, **/Containerfile
-
-### 2. Check for Multiple FROM Statements
-- Count FROM instructions
-- Check for AS aliases

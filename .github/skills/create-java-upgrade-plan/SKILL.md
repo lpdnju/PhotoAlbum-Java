@@ -38,7 +38,7 @@ Then STOP—do not create files or ask for clarification.
 
 ## Workflow
 
-1. **Parse request** → Extract target versions (defaults: Java 21, Spring Boot 3.4)
+1. **Parse request** → Extract target versions (defaults: Java 25, Spring Boot 4.x)
 2. **Generate tasks.json** → Follow `tasks-schema.json` and `upgrade-plan-template.md`
 3. **Generate plan.md** → Brief overview referencing tasks.json
 
