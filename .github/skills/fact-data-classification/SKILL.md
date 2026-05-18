@@ -8,62 +8,9 @@ description: Identify data sensitivity classification (Public, Internal, Confide
 ## Purpose
 Determine the sensitivity classification of data handled by the application to understand protection requirements.
 
-## Automated Analysis
-
-This SKILL includes executable scripts that automatically scan for data classification markers.
-
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
-```
-
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
-```
-
-### Detected Classifications
-
-- **PII**: Personal Identifiable Information (email, phone, address, SSN)
-- **PHI**: Protected Health Information (medical records)
-- **PCI**: Payment Card Industry data (credit cards)
-- **Confidential**: Sensitive business data (salary, secrets)
-- **Restricted**: Highly sensitive data
-- **Internal**: Company internal data
-- **Public**: Publicly accessible data
-
-### Script Output Format
-
-```json
-{
-  "input_name": "Data Classification",
-  "analysis_method": "Code",
-  "status": "success",
-  "result": {
-    "finding": "PII, Confidential",
-    "confidence": "high",
-    "evidence": [
-      "UserModel.java: PII markers detected",
-      "schema.sql: PII fields in schema (email, phone, address)",
-      "schema.sql: Credentials in schema"
-    ],
-    "values": ["PII", "Confidential"],
-    "script_output": {
-      "classifications": ["PII", "Confidential"]
-    }
-  },
-  "execution_time_seconds": 0.9,
-  "timestamp": "2026-02-28T10:30:00Z"
-}
-```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-- **/README.md, **/docs/**/*.md (data classification)
-- **/SECURITY.md, **/DATA_CLASSIFICATION.md
+## Target Files/Locations
+- **/README.md, **/SECURITY.md, **/DATA_CLASSIFICATION.md
+- **/docs/**/*.md (data classification)
 - **/*.{java,cs,js,py} (data annotations, comments)
 - **/schema.sql, **/migrations/*.sql (database schemas)
 - **/*.proto, **/*.graphql (API schemas)
@@ -180,7 +127,7 @@ Based on findings, classify:
 ```json
 {
   "input_name": "Data Classification",
-  "analysis_method": "Code",
+  "analysis_method": "LLM",
   "status": "success|not_applicable",
   "result": {
     "finding": "{Classification summary}",

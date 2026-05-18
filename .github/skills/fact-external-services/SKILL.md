@@ -8,62 +8,12 @@ description: Identify external service dependencies (Database, Redis, Message qu
 ## Purpose
 Detect external service dependencies like databases, caches, message queues, and other backend services the application connects to.
 
-## Automated Analysis
-
-This SKILL includes executable scripts that automatically detect external service dependencies.
-
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
-```
-
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
-```
-
-### Detected Services
-
-- **Databases**: PostgreSQL, MySQL, MariaDB, MongoDB
-- **Caching**: Redis
-- **Message Queues**: RabbitMQ, Kafka
-- **Search**: Elasticsearch
-
-### Script Output Format
-
-```json
-{
-  "input_name": "External Services",
-  "analysis_method": "Code",
-  "status": "success",
-  "result": {
-    "finding": "PostgreSQL, Redis, RabbitMQ",
-    "confidence": "high",
-    "evidence": [
-      "docker-compose.yml: PostgreSQL service",
-      "docker-compose.yml: Redis service",
-      "application.properties: RabbitMQ connection config"
-    ],
-    "values": ["PostgreSQL", "Redis", "RabbitMQ"],
-    "script_output": {
-      "services": ["PostgreSQL", "Redis", "RabbitMQ"],
-      "count": 3
-    }
-  },
-  "execution_time_seconds": 0.4,
-  "timestamp": "2026-02-28T10:30:00Z"
-}
-```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-- **/docker-compose*.yml** (services section)
-- **/k8s/**/*.yaml** (Service, StatefulSet)
-- **/application.{properties,yml}**
-- **/*.env**, **/.env.example**
+## Target Files/Locations
+- **/docker-compose*.yml (services section)
+- **/k8s/**/*.yaml (Service, StatefulSet)
+- **/application.{properties,yml}
+- **/.env, **/.env.example
+- **/*.{java,cs,js,py} (connection strings)
 
 ## Example Patterns
 - `postgres:13`, `redis:alpine`, `rabbitmq:3-management`
@@ -121,7 +71,7 @@ Context: -B 2 -A 1
 ```json
 {
   "input_name": "External Services",
-  "analysis_method": "Code",
+  "analysis_method": "LLM",
   "status": "success|not_applicable",
   "result": {
     "finding": "{Services summary}",

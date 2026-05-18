@@ -5,7 +5,7 @@ description: Create an upgrade plan to migrate a Java project to latest LTS vers
 
 # Create Upgrade Plan
 
-Creates `tasks.json` and `plan.md` for upgrading Java projects to target versions.
+Creates `tasks.json` (in `.metadata/` subdirectory) and `plan.md` for upgrading Java projects to target versions.
 
 > **Supported**: Java upgrades only. .NET and other languages are not supported.
 
@@ -38,9 +38,9 @@ Then STOP—do not create files or ask for clarification.
 
 ## Workflow
 
-1. **Parse request** → Extract target versions (defaults: Java 21, Spring Boot 3.4)
-2. **Generate tasks.json** → Follow `tasks-schema.json` and `upgrade-plan-template.md`
-3. **Generate plan.md** → Brief overview referencing tasks.json
+1. **Parse request** → Extract target versions (defaults: Java 25, Spring Boot 4.x)
+2. **Generate tasks.json** → Follow `tasks-schema.json` and `upgrade-plan-template.md`, and save it to `.metadata/tasks.json`
+3. **Generate plan.md** → Brief overview of the upgrade plan
 
 ## Task Rules
 
@@ -54,5 +54,5 @@ Then STOP—do not create files or ask for clarification.
 ## Output
 
 Save to `${modernization-work-folder}/`:
-- `tasks.json` — Upgrade tasks per schema
+- `.metadata/tasks.json` — Upgrade tasks per schema
 - `plan.md` — Plan overview

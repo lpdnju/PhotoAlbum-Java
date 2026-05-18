@@ -8,59 +8,15 @@ description: Identify application runtime (Node.js, Python, Java, Go, .NET) in c
 ## Purpose
 Detect the application runtime/platform used in containerized applications (Node.js, Python, Java, Go, .NET, Ruby, PHP, etc.).
 
-## Automated Analysis
-
-This SKILL includes executable scripts that automatically detect the runtime environment.
-
-### Usage
-
-**Bash:**
-```bash
-bash analyze.sh /path/to/project
-```
-
-**PowerShell:**
-```powershell
-pwsh analyze.ps1 -ProjectPath C:\path\to\project
-```
-
-### Detection Methods
-
-1. **Dockerfile Analysis**: Detects runtime from base images (node:, python:, openjdk:, mcr.microsoft.com/dotnet/, etc.)
-2. **Dependency Files**: Identifies runtime from package.json, pom.xml, *.csproj, requirements.txt, go.mod
-3. **Version Extraction**: Attempts to extract version numbers from images and dependency files
-
-### Script Output Format
-
-```json
-{
-  "input_name": "Runtime Environment",
-  "analysis_method": "Code",
-  "status": "success",
-  "result": {
-    "finding": "Node.js 16 (alpine)",
-    "confidence": "high",
-    "evidence": [
-      "Base image: node:16-alpine",
-      "package.json found"
-    ],
-    "values": ["Node.js", "Version: 16", "Variant: alpine"],
-    "script_output": {
-      "runtime": "Node.js",
-      "version": "16",
-      "variant": "alpine"
-    }
-  },
-  "execution_time_seconds": 0.3,
-  "timestamp": "2026-02-28T10:30:00Z"
-}
-```
-
-## Manual Analysis Steps (for AI interpretation)
-
-If scripts are unavailable:
-- **/Dockerfile, **/Containerfile
-- **/package.json, **/pom.xml, **/*.csproj, **/requirements.txt, **/go.mod
+## Target Files/Locations
+- **/Dockerfile, **/Containerfile (FROM base image)
+- **/package.json, **/package-lock.json (Node.js)
+- **/pom.xml, **/build.gradle (Java)
+- **/*.csproj, **/*.sln (.NET)
+- **/requirements.txt, **/Pipfile, **/pyproject.toml (Python)
+- **/go.mod (Go)
+- **/Gemfile (Ruby)
+- **/composer.json (PHP)
 
 ## Example Patterns
 - `FROM node:16`, `FROM python:3.9`, `FROM openjdk:11`, `FROM mcr.microsoft.com/dotnet/runtime:6.0`
@@ -129,7 +85,7 @@ Parse FROM instruction:
 ```json
 {
   "input_name": "Runtime Environment",
-  "analysis_method": "Code",
+  "analysis_method": "LLM",
   "status": "success|not_applicable",
   "result": {
     "finding": "{Runtime identified}",

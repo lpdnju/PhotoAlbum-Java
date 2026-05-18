@@ -5,7 +5,7 @@ description: Generate dependency map diagram from project build files
 
 # Dependency Map
 
-Analyze project build and package files to generate a visual map of all external dependencies grouped by functional category. Save to `.github/modernize/assessment/dependency-map.md`.
+Analyze project build and package files to generate a visual map of all external dependencies grouped by functional category. Save to `.github/modernize/assessment/engines/dependency-map.md`.
 
 This skill focuses exclusively on **declared external dependencies** (libraries, frameworks, packages). For internal application structure and component relationships, see the `architecture-diagram` skill.
 
@@ -15,9 +15,11 @@ This skill focuses exclusively on **declared external dependencies** (libraries,
 
 ## Execution Steps
 
-### Step 1: Extract Dependencies from Build Files
+### Step 1: Generate Dependencies Section
 
-Examine **only** build and package management files (do NOT scan source code — that is the `architecture-diagram` skill's job):
+Analyze build files and produce the complete `## Dependencies` section in one pass:
+
+**Analysis — examine only build and package management files** (do NOT scan source code — that is the `architecture-diagram` skill's job):
 
 - Java: pom.xml, build.gradle, settings.gradle, gradle.properties, gradle lockfiles
 - .NET: *.csproj, Directory.Build.props, packages.config, Directory.Packages.props
@@ -33,9 +35,7 @@ Also detect:
 - Central package management (.NET Directory.Packages.props)
 - Transitive dependencies where visible from lock files or BOM
 
-### Step 2: Categorize Dependencies
-
-Group dependencies into functional categories:
+**Categorize** dependencies into functional groups:
 
 | Category | Examples |
 |----------|----------|
@@ -49,12 +49,11 @@ Group dependencies into functional categories:
 | Utilities | Guava, Apache Commons, Lombok, AutoMapper |
 
 Rules:
-- Exclude test-scoped dependencies (JUnit, xUnit, Mockito, etc.) — they are not relevant for modernization
+- Exclude test-scoped dependencies (JUnit, xUnit, Mockito, etc.) from the main diagram and Dependency Summary table — they are not relevant for modernization planning
 - If a dependency doesn't fit any category, put it under "Utilities"
+- Collect test-scoped dependencies separately for the Test Dependencies section (Step 2)
 
-### Step 3: Generate Mermaid Diagram
-
-Create a **Mermaid `flowchart LR`** diagram with:
+**Diagram — Mermaid `flowchart LR`:**
 - Application as the central left-side node
 - One `subgraph` per functional category
 - Each dependency as a node showing name and version: `Lib["Library Name v1.2.3"]`
@@ -103,9 +102,22 @@ flowchart LR
     SLF4J -.->|"implementation"| Logback
 ~~~
 
-### Step 4: Save Output
+**Textual explanations (write immediately after the diagram):**
+- **Dependency Summary table**: Category | Count | Key Libraries | Notes (e.g., Web Frameworks | 2 | ASP.NET MVC 5.2.7, Razor 3.2.7 | Legacy MVC stack on .NET Framework)
+- **Version & Compatibility Risks**: A short paragraph highlighting dependencies that are outdated, end-of-life, or have known migration concerns (e.g., ".NET Framework 4.7.2 is in maintenance mode; Entity Framework 6 has a migration path to EF Core")
+- **Notable Observations**: 2-4 bullet points on anything noteworthy — duplicate functionality across libraries, deprecated packages, security-sensitive dependencies, or unusually large transitive trees
 
-Save to `.github/modernize/assessment/dependency-map.md` with this exact structure:
+### Step 2: Generate Test Dependencies Section
+
+Collect all test-scoped dependencies (excluded from the main diagram) and produce the complete `## Test Dependencies` section:
+
+- List detected test frameworks and supporting libraries with their versions (e.g., JUnit 5, Mockito, AssertJ, Testcontainers, xUnit, Jest)
+- Report the total number of test-scope dependencies
+- Note any test infrastructure concerns (e.g., outdated test framework version, missing contract-testing library, no integration test framework detected)
+
+### Step 3: Save Output
+
+Save to `.github/modernize/assessment/engines/dependency-map.md` with this exact structure:
 
 ```
 # Dependency Map
@@ -115,9 +127,26 @@ A brief introduction (1-2 sentences) stating project name and total dependency c
 ## Dependencies
 
 < Mermaid flowchart LR here >
-```
 
-**The output file must contain ONLY the heading, one brief intro line, and one Mermaid diagram block. No other text, tables, or lists.**
+### Dependency Summary
+
+[Table: Category | Count | Key Libraries | Notes]
+
+### Version & Compatibility Risks
+
+[Short paragraph on outdated or end-of-life dependencies]
+
+### Notable Observations
+
+[2-4 bullet points on noteworthy findings]
+
+## Test Dependencies
+
+[Table: Framework | Version | Notes]
+
+Total test-scope dependencies: N
+[1-2 sentences on test infrastructure observations, or "No test dependencies detected."]
+```
 
 ## Scaling Rules
 
@@ -144,5 +173,8 @@ A brief introduction (1-2 sentences) stating project name and total dependency c
 
 - Mermaid diagram renders correctly with dependencies grouped by functional category
 - Each dependency shows name and version
-- Output file contains only heading and one Mermaid block — no extra prose, tables, or lists
-- File saved to `.github/modernize/assessment/dependency-map.md`
+- Dependency Summary table lists categories with counts and key libraries
+- Version & Compatibility Risks paragraph highlights outdated or end-of-life dependencies
+- Notable Observations lists 2-4 noteworthy findings
+- Test Dependencies section lists detected test frameworks with versions and total count
+- File saved to `.github/modernize/assessment/engines/dependency-map.md`

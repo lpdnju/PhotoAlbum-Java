@@ -16,16 +16,14 @@
     {
       "type": "upgrade",
       "id": "001-upgrade-java-spring-boot",
-      "description": "Upgrade to Java 21 and Spring Boot 3.4",
-      "requirements": "Upgrade JDK to 21, Spring Boot to 3.4, Spring Framework to 6.x, and migrate javax.* to jakarta.* if needed",
+      "description": "Upgrade to Java 25 and Spring Boot 4.x",
+      "requirements": "Upgrade JDK to 25, Spring Boot to 4.x, Spring Framework to 7.x, and migrate javax.* to jakarta.* if needed",
       "environmentConfiguration": null,
       "skills": [{ "name": "java-version-upgrade", "location": "builtin" }],
       "successCriteria": {
         "passBuild": "true",
         "generateNewUnitTests": "false",
-        "generateNewIntegrationTests": "false",
-        "passUnitTests": "true",
-        "passIntegrationTests": "false"
+        "passUnitTests": "true"
       },
       "status": "pending"
     }
@@ -49,5 +47,5 @@
 Upgrade to latest LTS versions.
 
 ## Tasks
-See tasks.json for detailed task breakdown.
+See the .metadata/tasks.json for detailed task breakdown.
 ```
