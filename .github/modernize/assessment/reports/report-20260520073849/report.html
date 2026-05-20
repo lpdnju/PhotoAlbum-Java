@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Assessment - photo-album</title>
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-card: #f8f9fa;
+  --bg-page: #f0f1f3;
+  --text-primary: #24292f;
+  --text-secondary: #57606a;
+  --text-muted: #6b7280;
+  --border-color: #d0d7de;
+  --border-light: #e1e4e8;
+  --link-color: #2563eb;
+  --color-mandatory: #E3008C;
+  --color-potential: #637CEF;
+  --color-optional: #A19F9D;
+  --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-family); background: var(--bg-page); color: var(--text-primary); font-size: 14px; }
+.main { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 16px; color: var(--text-primary); }
+h2 { font-size: 20px; font-weight: 600; margin: 16px 0 12px; }
+h3 { font-size: 16px; font-weight: 600; margin: 12px 0 8px; }
+h4 { font-size: 14px; font-weight: 600; margin: 10px 0 6px; }
+.report-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; padding: 16px 20px; margin-bottom: 16px; }
+.app-info-container { display: flex; gap: 32px; flex-wrap: wrap; }
+.app-info-col { flex: 1; min-width: 200px; }
+.app-info-row { display: flex; gap: 8px; margin-bottom: 6px; }
+.app-info-label { font-weight: 600; color: var(--text-secondary); min-width: 100px; }
+.effort-badge { display: inline-block; background: #1f2937; color: #fff; border-radius: 4px; padding: 2px 10px; font-size: 13px; font-weight: 700; }
+.tab-nav { display: flex; gap: 0; border-bottom: 2px solid var(--border-color); margin-bottom: 16px; flex-wrap: wrap; }
+.tab-btn { background: none; border: none; padding: 10px 18px; cursor: pointer; font-size: 14px; font-family: var(--font-family); color: var(--text-secondary); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: color 0.15s; }
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--link-color); border-bottom-color: var(--link-color); font-weight: 600; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.domain-summary-container { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 16px; }
+.domain-card { display: flex; align-items: center; gap: 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 20px; }
+.domain-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+.domain-title { font-size: 15px; font-weight: 600; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 3px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.issue-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 16px; }
+.issue-table th { background: var(--bg-card); border-bottom: 2px solid var(--border-color); padding: 8px 12px; text-align: left; font-size: 13px; font-weight: 600; }
+.issue-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+.col-issue { width: 55%; }
+.col-criticality { width: 25%; }
+.col-storypoint { width: 20%; }
+.issue-row:hover { background: #f0f0f5; }
+.issue-title-cell { display: flex; align-items: center; gap: 8px; }
+.expand-btn { background: none; border: none; cursor: pointer; font-size: 14px; color: var(--text-secondary); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; padding: 0; flex-shrink: 0; }
+.expand-btn.open { transform: rotate(90deg); }
+.detail-row td { background: #fafbfc; padding: 12px 16px; }
+.detail-content { display: flex; gap: 20px; flex-wrap: wrap; }
+.file-list { flex: 1; min-width: 250px; }
+.explanation-panel { flex: 2; min-width: 300px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.explanation-panel p { margin-bottom: 8px; }
+.explanation-panel strong { color: var(--text-primary); }
+.file-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.file-table th { background: #e8e8ec; padding: 4px 8px; text-align: left; font-weight: 600; }
+.file-table td { padding: 4px 8px; border-bottom: 1px solid var(--border-light); }
+.file-table code { font-family: var(--font-mono); font-size: 11px; word-break: break-all; }
+.crit-label { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.crit-square { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.crit-square-mandatory { background: var(--color-mandatory); }
+.crit-square-potential { background: var(--color-potential); }
+.crit-square-optional { background: var(--color-optional); }
+.crit-square-information { background: #9ca3af; }
+.filter-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; padding: 8px 12px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; }
+.filter-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+.multi-select-container { position: relative; display: inline-block; }
+.ms-btn { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px 10px; font-size: 12px; cursor: pointer; font-family: var(--font-family); min-width: 120px; text-align: left; }
+.ms-dropdown { display: none; position: absolute; top: 100%; left: 0; z-index: 100; background: #fff; border: 1px solid var(--border-color); border-radius: 4px; min-width: 160px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 6px 0; }
+.ms-dropdown.open { display: block; }
+.ms-item { display: flex; align-items: center; gap: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+.ms-item:hover { background: var(--bg-page); }
+.clear-btn { background: none; border: none; color: var(--link-color); font-size: 12px; cursor: pointer; font-family: var(--font-family); text-decoration: underline; }
+.target-select-wrap { margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.target-select-wrap label { font-weight: 600; font-size: 13px; }
+.target-select-wrap select { border: 1px solid var(--border-color); border-radius: 4px; padding: 4px 8px; font-size: 13px; font-family: var(--font-family); }
+.issue-section { margin-bottom: 24px; }
+.issue-section h2 { border-bottom: 1px solid var(--border-light); padding-bottom: 6px; }
+.badge-experimental { display: inline-block; background: #fef08a; color: #92400e; border: 1px solid #fcd34d; border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 600; margin-left: 8px; vertical-align: middle; }
+.fact-content { line-height: 1.7; }
+.fact-content h2 { font-size: 20px; margin: 20px 0 10px; border-bottom: 1px solid var(--border-light); padding-bottom: 6px; }
+.fact-content h3 { font-size: 16px; margin: 16px 0 8px; }
+.fact-content h4 { font-size: 14px; margin: 12px 0 6px; }
+.fact-content p { margin-bottom: 10px; }
+.fact-content ul, .fact-content ol { margin: 8px 0 10px 20px; }
+.fact-content li { margin-bottom: 4px; }
+.fact-content code { font-family: var(--font-mono); background: #f0f0f5; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+.fact-content pre { background: #f0f0f5; border: 1px solid var(--border-light); border-radius: 4px; padding: 12px 16px; overflow-x: auto; margin: 12px 0; font-size: 12px; }
+.fact-content pre.mermaid { background: #fff; border: 1px solid var(--border-light); text-align: center; font-size: 14px; }
+.fact-table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; font-size: 13px; }
+.fact-table th { background: var(--bg-card); border: 1px solid var(--border-color); padding: 7px 10px; text-align: left; font-weight: 600; }
+.fact-table td { border: 1px solid var(--border-light); padding: 6px 10px; vertical-align: top; }
+.fact-table tr:nth-child(even) { background: #fafbfc; }
+.fact-content blockquote { border-left: 3px solid var(--border-color); padding: 6px 12px; color: var(--text-secondary); margin: 8px 0; background: #fafbfc; }
+.fact-content hr { border: none; border-top: 1px solid var(--border-light); margin: 16px 0; }
+.fact-content a { color: var(--link-color); }
+.footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-muted); font-size: 13px; text-align: center; }
+.footer a { color: var(--link-color); }
+</style>
+</head>
+<body>
+<div class="main">
+  <h1>photo-album</h1>
+
+  <div class="report-card">
+    <h2>Application Information</h2>
+    <div class="app-info-container">
+      <div class="app-info-col">
+        <div class="app-info-row"><span class="app-info-label">Name</span><span>photo-album</span></div>
+        <div class="app-info-row"><span class="app-info-label">Language</span><span>Java</span></div>
+        <div class="app-info-row"><span class="app-info-label">JDK Version</span><span>1.8</span></div>
+        <div class="app-info-row"><span class="app-info-label">Effort</span><span><span class="effort-badge">XL</span>&nbsp; total story points: 172</span></div>
+      </div>
+      <div class="app-info-col">
+        <div class="app-info-row"><span class="app-info-label">Build Tools</span><span>Maven</span></div>
+        <div class="app-info-row"><span class="app-info-label">Frameworks</span><span>Spring Boot, Spring</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('tab-issues', this)">Issues</button><button class="tab-btn" onclick="switchTab('tab-architecture-diagram', this)">Architecture</button><button class="tab-btn" onclick="switchTab('tab-dependency-map', this)">Dependencies</button><button class="tab-btn" onclick="switchTab('tab-api-service-contracts', this)">API Contracts</button><button class="tab-btn" onclick="switchTab('tab-data-architecture', this)">Data</button><button class="tab-btn" onclick="switchTab('tab-configuration-inventory', this)">Configuration</button><button class="tab-btn" onclick="switchTab('tab-business-workflows', this)">Workflows</button>
+  </div>
+
+  <div id="tab-issues" class="tab-panel active">
+
+    <div class="target-select-wrap">
+      <label for="target-select">Target Compute Service:</label>
+      <select id="target-select" onchange="onTargetChange(this.value)">
+        <option value="azure-aks" selected>Azure Kubernetes Service</option><option value="azure-appservice" >Azure App Service</option><option value="azure-container-apps" >Azure Container Apps</option>
+      </select>
+    </div>
+
+    <div class="report-card" id="summary-card">
+      <h2>Issue Summary</h2>
+      <div class="domain-summary-container" id="donut-container">
+        <div class="domain-card">
+          <div id="donut-cloud"><svg viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="35" fill="none" stroke="#637CEF" stroke-width="15" stroke-dasharray="218.4 219.9" stroke-dashoffset="-0.0" style="transform-origin:center;transform:rotate(-90deg)"/><text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#24292f">5</text></svg></div>
+          <div>
+            <div class="domain-label">Domain</div>
+            <div class="domain-title">Cloud Readiness</div>
+            <div style="margin-top:8px;">
+              <div class="legend-item"><span class="legend-dot" style="background:#E3008C"></span>Mandatory (<span id="cloud-m">0</span>)</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#637CEF"></span>Potential (<span id="cloud-p">5</span>)</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#A19F9D"></span>Optional (<span id="cloud-o">0</span>)</div>
+            </div>
+          </div>
+        </div>
+        <div class="domain-card">
+          <div id="donut-upgrade"><svg viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="35" fill="none" stroke="#E3008C" stroke-width="15" stroke-dasharray="163.4 219.9" stroke-dashoffset="-0.0" style="transform-origin:center;transform:rotate(-90deg)"/><circle cx="50" cy="50" r="35" fill="none" stroke="#A19F9D" stroke-width="15" stroke-dasharray="53.5 219.9" stroke-dashoffset="-164.9" style="transform-origin:center;transform:rotate(-90deg)"/><text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#24292f">4</text></svg></div>
+          <div>
+            <div class="domain-label">Domain</div>
+            <div class="domain-title">Upgrade</div>
+            <div style="margin-top:8px;">
+              <div class="legend-item"><span class="legend-dot" style="background:#E3008C"></span>Mandatory (<span id="upgrade-m">3</span>)</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#637CEF"></span>Potential (<span id="upgrade-p">0</span>)</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#A19F9D"></span>Optional (<span id="upgrade-o">1</span>)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <div class="multi-select-container">
+        <button class="ms-btn" onclick="toggleMultiSelect('ms-domain')">Domain ▾</button>
+        <div class="ms-dropdown" id="ms-domain">
+          <label class="ms-item"><input type="checkbox" value="cloud-readiness" checked onchange="onMultiSelectChange('ms-domain','Domain')"> Cloud Readiness</label>
+          <label class="ms-item"><input type="checkbox" value="upgrade" checked onchange="onMultiSelectChange('ms-domain','Domain')"> Upgrade</label>
+        </div>
+      </div>
+      <div class="multi-select-container">
+        <button class="ms-btn" onclick="toggleMultiSelect('ms-crit')">Criticality ▾</button>
+        <div class="ms-dropdown" id="ms-crit">
+          <label class="ms-item"><input type="checkbox" value="mandatory" checked onchange="onMultiSelectChange('ms-crit','Criticality')"> Mandatory</label>
+          <label class="ms-item"><input type="checkbox" value="potential" checked onchange="onMultiSelectChange('ms-crit','Criticality')"> Potential</label>
+          <label class="ms-item"><input type="checkbox" value="optional" checked onchange="onMultiSelectChange('ms-crit','Criticality')"> Optional</label>
+        </div>
+      </div>
+      <button class="clear-btn" onclick="clearAllFilters()">Clear filters</button>
+    </div>
+
+    <div class="issue-section" data-domain="cloud-readiness">
+      <h2>Cloud Readiness Issues</h2>
+      <table class="issue-table">
+        <colgroup><col class="col-issue"/><col class="col-criticality"/><col class="col-storypoint"/></colgroup>
+        <thead><tr><th>Issue Category</th><th>Criticality</th><th>Story Point</th></tr></thead>
+        <tbody>
+          
+      <tr class="issue-row" data-criticality="potential" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 8}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 8}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 8}}' onclick="toggleRow('cr_azure_database_microsoft_oracle_07000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-cr_azure_database_microsoft_oracle_07000">&#x276F;</button> Oracle database found</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-potential"></span>Potential</span></td>
+        <td class="sp-cell">8</td>
+      </tr>
+      <tr class="detail-row" id="cr_azure_database_microsoft_oracle_07000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>pom.xml</code></td><td>52</td></tr><tr><td><code>docker-compose.yml</code></td><td>32</td></tr><tr><td><code>src/main/resources/application-docker.properties</code></td><td>2</td></tr><tr><td><code>src/main/resources/application.properties</code></td><td>10</td></tr><tr><td><code>src/main/resources/application-docker.properties</code></td><td>5</td></tr><tr><td><code>src/main/resources/application.properties</code></td><td>13</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>Oracle database found. To migrate a Java application that uses an Oracle database to Azure, you can follow these recommendations:</p><p> * <strong>Migrate to Azure Database for PostgreSQL</strong>: Azure recommends migrating Oracle databases to Azure Database for PostgreSQL Flexible Server as it provides better cost-effectiveness and performance. Create a managed PostgreSQL Flexible Server database in Azure and choose the appropriate pricing tier based on your application&#x27;s requirements.</p><p> * <strong>Use migration tools</strong>: Utilize the Azure Database Migration Service (DMS) or third-party tools to migrate your Oracle database schema and data to PostgreSQL. Consider using ora2pg or similar tools to convert Oracle-specific SQL to PostgreSQL-compatible SQL.</p><p> * <strong>Update database drivers and connection strings</strong>: Replace Oracle JDBC drivers with PostgreSQL drivers in your Java application. Update connection strings from Oracle format (jdbc:oracle:thin:) to PostgreSQL format (jdbc:postgresql:).</p><p> * <strong>Review and convert Oracle-specific code</strong>: Identify and convert Oracle-specific SQL functions, stored procedures, and PL/SQL code to PostgreSQL equivalents. Pay attention to data types, syntax differences, and built-in functions.</p><p> * Enable <strong>monitoring and diagnostics</strong>: Utilize Azure Monitor to gain insights into the performance and health of your Java application and the underlying PostgreSQL database. Set up metrics, alerts, and log analytics to proactively identify and resolve issues.</p><p> * Implement <strong>security</strong> measures: Apply security best practices to protect your Java application and the PostgreSQL database. This includes implementing authentication and authorization mechanisms with passwordless connections and leveraging Microsoft Defender for Cloud for threat detection and vulnerability assessments.</p><p> * <strong>Backup</strong> your data: Azure Database for PostgreSQL provides automated backups by default. You can configure the retention period for backups based on your requirements. You can also enable geo-redundant backups, if needed, to enhance data durability and availability.</p><a href="https://learn.microsoft.com/azure/postgresql" target="_blank">Azure Database for PostgreSQL documentation</a><br><a href="https://learn.microsoft.com/azure/postgresql/migrate/how-to-migrate-oracle-ora2pg" target="_blank">Oracle to PostgreSQL migration guide</a><br><a href="https://learn.microsoft.com/azure/dms" target="_blank">Azure Database Migration Service documentation</a><br><a href="https://learn.microsoft.com/azure/azure-monitor" target="_blank">Azure Monitor documentation</a><br><a href="https://learn.microsoft.com/azure/defender-for-cloud" target="_blank">Microsoft Defender for Cloud</a><br></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="potential" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 3}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 3}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 3}}' onclick="toggleRow('cr_azure_password_01000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-cr_azure_password_01000">&#x276F;</button> Password found in configuration file</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-potential"></span>Potential</span></td>
+        <td class="sp-cell">3</td>
+      </tr>
+      <tr class="detail-row" id="cr_azure_password_01000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>src/test/resources/application-test.properties</code></td><td>5</td></tr><tr><td><code>src/main/resources/application-docker.properties</code></td><td>4</td></tr><tr><td><code>src/main/resources/application.properties</code></td><td>12</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>Using clear passwords in property files is a security risk, as they can be easily compromised if the files are accessed by unauthorized individuals. To enhance the security of your application, it is recommended to employ secure credential management practices.</p><p> * <strong>Azure Key Vault</strong>: Utilize Azure Key Vault to securely store and manage your application&#x27;s passwords and other sensitive credentials. Azure Key Vault provides a centralized and highly secure location for storing secrets, keys, and certificates.</p><p> * <strong>Passwordless connections</strong>: You can provide an additional layer of security and convenience for accessing resources in Azure by eliminating the need for passwords. This way you can reduce the risk of password-related vulnerabilities, such as weak passwords or password theft.</p><a href="https://learn.microsoft.com/azure/key-vault" target="_blank">Azure Key Vault documentation</a><br><a href="https://learn.microsoft.com/azure/developer/intro/passwordless-overview" target="_blank">Passwordless connections for Azure services</a><br><a href="https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-boot-to-azure-container-apps#inventory-configuration-sources-and-secrets" target="_blank">Password found in configuration file</a><br><a href="https://docs.microsoft.com/azure/developer/java/spring-framework/configure-spring-boot-starter-java-app-with-azure-key-vault" target="_blank">Read a secret from Azure Key Vault in a Spring Boot application</a><br><a href="https://search.maven.org/artifact/com.azure.spring/azure-spring-boot-starter-keyvault-secrets" target="_blank">Azure Spring Boot Starter for Azure Key Vault Secrets</a><br></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="potential" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 1}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 1}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 1}}' onclick="toggleRow('cr_spring_boot_to_azure_port_01000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-cr_spring_boot_to_azure_port_01000">&#x276F;</button> Server port configuration found</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-potential"></span>Potential</span></td>
+        <td class="sp-cell">1</td>
+      </tr>
+      <tr class="detail-row" id="cr_spring_boot_to_azure_port_01000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>src/main/resources/application-docker.properties</code></td><td>24</td></tr><tr><td><code>src/main/resources/application.properties</code></td><td>2</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>The application is setting the server port. To migrate a Java application that sets the server port to Azure Container Apps:</p><p> * **Azure Container Apps allows you to expose port according to your Azure Container Apps resource configuration. For instance, a Spring Boot application listens to port of 8080 by default, but it can be set with server.port or environment variable SERVER_PORT as you need.</p><a href="https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-boot-to-azure-container-apps#identify-any-clients-relying-on-a-non-standard-port" target="_blank">Identify any clients relying on a non-standard port</a><br></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="potential" data-targets='{&quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 2}}' onclick="toggleRow('cr_spring_boot_to_azure_restricted_config_01000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-cr_spring_boot_to_azure_restricted_config_01000">&#x276F;</button> Restricted configurations found</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-potential"></span>Potential</span></td>
+        <td class="sp-cell">2</td>
+      </tr>
+      <tr class="detail-row" id="cr_spring_boot_to_azure_restricted_config_01000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>src/main/resources/application-docker.properties</code></td><td>24</td></tr><tr><td><code>src/main/resources/application.properties</code></td><td>2</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>The application uses restricted configurations for Azure Container Apps.<br> These properties can be automatically injected into your application environment by Azure Container Apps to access managed Config Server and managed Eureka Server.<br> Please remove them from your application, including configuration files, config server files, command line parameters, Java system attributes, and environment variables.</p><p> If configured in <strong>configuration files</strong>: they will be ignored and overrided by Azure Container Apps.<br> <br> If configured in <strong>Config Server files</strong>, <strong>command line parameters</strong>, <strong>Java system attribute</strong>, <strong>environment variable</strong>: they need to be removed or you might experience conflicts and unexpected behavior.</p><a href="https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-cloud-to-azure-container-apps#remove-restricted-configurations" target="_blank">Migrate Spring Boot applications to Azure Container Apps - Remove restricted configurations</a><br><a href="https://learn.microsoft.com/azure/container-apps/java-config-server?tabs=azure-cli" target="_blank">Connect to a managed Config Server for Spring in Azure Container Apps</a><br><a href="https://learn.microsoft.com/azure/container-apps/java-eureka-server?tabs=azure-cli" target="_blank">Connect to a managed Eureka Server for Spring in Azure Container Apps</a><br></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="potential" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 5}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 5}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;potential&quot;, &quot;effort&quot;: 5}}' onclick="toggleRow('cr_jakarta_database_00002', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-cr_jakarta_database_00002">&#x276F;</button> Detects usage of Jakarta Persistence (JPA) APIs</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-potential"></span>Potential</span></td>
+        <td class="sp-cell">5</td>
+      </tr>
+      <tr class="detail-row" id="cr_jakarta_database_00002" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>pom.xml</code></td><td>46</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>The application depends on <strong>Jakarta Persistence (JPA)</strong> APIs (`jakarta.persistence.*` or legacy `javax.persistence.*`), which are used for object-relational mapping (ORM) and database interaction in Jakarta EE or Java EE applications.</p><p>When migrating to Azure:<br>- Ensure that the database connection, JPA provider (e.g., Hibernate, EclipseLink), and dialect are compatible with your target Azure database service.<br>- Recommended database services include <strong>Azure Database for PostgreSQL</strong>, <strong>Azure Database for MySQL</strong>, or <strong>Azure SQL Database</strong>.<br>- For containerized deployments, these JPA-based applications can run on <strong>Azure Kubernetes Service (AKS)</strong> or <strong>Azure App Service for Linux/Windows</strong>.<br>- If using <strong>Spring Data JPA</strong>, verify that connection pool settings and environment variables are properly configured for the cloud environment.<br>- Consider leveraging <strong>Azure Key Vault</strong> for secure storage of database credentials and connection strings.</p><a href="https://jakarta.ee/specifications/persistence/" target="_blank">Jakarta Persistence Specification</a><br><a href="https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/data-stores-getting-started#common-database-scenarios" target="_blank">Prepare to choose a data store in Azure</a><br></div>
+          </div>
+        </td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="issue-section" data-domain="upgrade">
+      <h2>Upgrade Issues</h2>
+      <table class="issue-table">
+        <colgroup><col class="col-issue"/><col class="col-criticality"/><col class="col-storypoint"/></colgroup>
+        <thead><tr><th>Issue Category</th><th>Criticality</th><th>Story Point</th></tr></thead>
+        <tbody>
+          
+      <tr class="issue-row" data-criticality="mandatory" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}}' onclick="toggleRow('up_spring_boot_to_azure_spring_boot_version_01000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-up_spring_boot_to_azure_spring_boot_version_01000">&#x276F;</button> Spring Boot Version Has Reached the End of OSS Support</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-mandatory"></span>Mandatory</span></td>
+        <td class="sp-cell">8</td>
+      </tr>
+      <tr class="detail-row" id="up_spring_boot_to_azure_spring_boot_version_01000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>pom.xml</code></td><td>40</td></tr><tr><td><code>pom.xml</code></td><td>34</td></tr><tr><td><code>pom.xml</code></td><td>46</td></tr><tr><td><code>pom.xml</code></td><td>78</td></tr><tr><td><code>pom.xml</code></td><td>92</td></tr><tr><td><code>pom.xml</code></td><td>72</td></tr><tr><td><code>pom.xml</code></td><td>59</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>The application is using a Spring Boot version that has reached its End of OSS Support.<br>With the officially supported new versions from Spring, you can get the best experience. Here are some steps you can take to update your application to the latest version of Spring Boot:</p><p>* Choose a <strong>supported Spring Boot version</strong>: Check out Spring Boot Support Versions and determine the most suitable supported Spring Boot version.</p><p>* <strong>Update Spring Boot version</strong>: Update the Spring Boot version of your application. There are automated tools like Rewrite to help you with the migration.</p><p>* <strong>Address code compatibility</strong>: Review your application&#x27;s codebase for any potential compatibility issues with the target Spring Boot version. Update deprecated APIs or features, address any language or library changes, and ensure that your code follows best practices and standards.</p><p>* <strong>Test thoroughly</strong>: Execute a comprehensive testing process to verify the compatibility and functionality of your application with the new Spring Boot version. Perform unit tests, integration tests, and system tests to validate that all components and dependencies work as expected.</p><a href="https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-boot-to-azure-container-apps" target="_blank">Migrate Spring Boot applications to Azure Container Apps</a><br><a href="https://learn.microsoft.com/azure/container-apps/java-microservice-get-started?tabs=azure-cli" target="_blank">Launch your first Java microservice application with managed Java components in Azure Container Apps</a><br><a href="https://spring.io/projects/spring-boot/#support" target="_blank">Spring Boot Supported Versions</a><br><a href="https://github.com/spring-projects/spring-boot/wiki/Supported-Versions" target="_blank">Spring Boot Support Policy</a><br></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="mandatory" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}}' onclick="toggleRow('up_spring_framework_version_01000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-up_spring_framework_version_01000">&#x276F;</button> Spring Framework Version Has Reached the End of OSS Support</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-mandatory"></span>Mandatory</span></td>
+        <td class="sp-cell">8</td>
+      </tr>
+      <tr class="detail-row" id="up_spring_framework_version_01000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>pom.xml</code></td><td>46</td></tr><tr><td><code>pom.xml</code></td><td>78</td></tr><tr><td><code>pom.xml</code></td><td>34</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>Your application is using a Spring Framework version that has reached its End of OSS Support.<br>Upgrading to a supported version ensures better performance, security, and compatibility with modern tools.<br>  1. Pick a Supported Version: Review the Spring Framework support policy and choose an actively supported version.<br>  2. Update Your Project: Change the Spring Framework version in your pom.xml or build.gradle.<br>  3. Fix Compatibility Issues: Update deprecated code, replace removed features, and ensure dependencies are compatible with the new Spring Framework version.<br>  4. Thoroughly Test: Run unit, integration, and end-to-end tests to make sure everything still works after the upgrade.</p><a href="https://spring.io/projects/spring-framework#support" target="_blank">Spring Framework Supported Versions</a><br><a href="https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions" target="_blank">Spring Framework Support Policy</a><br></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="mandatory" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;mandatory&quot;, &quot;effort&quot;: 8}}' onclick="toggleRow('up_azure_java_version_01000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-up_azure_java_version_01000">&#x276F;</button> Java Version Has Reached the End of Support</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-mandatory"></span>Mandatory</span></td>
+        <td class="sp-cell">8</td>
+      </tr>
+      <tr class="detail-row" id="up_azure_java_version_01000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>pom.xml</code></td><td>24</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>The application is using a Java version that has reached the end of support. It is strongly recommended to plan and execute a migration strategy to upgrade your application to a supported Java version.<br>Supported Java versions receive long-term support (LTS) from the Java community, including bug fixes and updates. Migrating to a supported version provides you with a stable and well-maintained platform for your application.</p></div>
+          </div>
+        </td>
+      </tr>
+      <tr class="issue-row" data-criticality="optional" data-targets='{&quot;azure-aks&quot;: {&quot;severity&quot;: &quot;optional&quot;, &quot;effort&quot;: 8}, &quot;azure-appservice&quot;: {&quot;severity&quot;: &quot;optional&quot;, &quot;effort&quot;: 8}, &quot;azure-container-apps&quot;: {&quot;severity&quot;: &quot;optional&quot;, &quot;effort&quot;: 8}}' onclick="toggleRow('up_azure_java_version_02000', this)" style="cursor:pointer;">
+        <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-up_azure_java_version_02000">&#x276F;</button> Java Version is not the latest LTS</div></td>
+        <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-optional"></span>Optional</span></td>
+        <td class="sp-cell">8</td>
+      </tr>
+      <tr class="detail-row" id="up_azure_java_version_02000" style="display:none;">
+        <td colspan="3">
+          <div class="detail-content">
+            <div class="file-list"><table class="file-table"><thead><tr><th>File</th><th>Line</th></tr></thead><tbody><tr><td><code>pom.xml</code></td><td>25</td></tr><tr><td><code>pom.xml</code></td><td>26</td></tr></tbody></table></div>
+            <div class="explanation-panel"><p>The application is not using the latest LTS Java version. It is recommended to consider upgrading to the latest LTS version to take advantage of the newest language features, performance improvements, and extended support timelines.<br>Upgrading to the latest LTS version ensures your application benefits from the most recent security enhancements and a longer support lifecycle.</p></div>
+          </div>
+        </td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div id="tab-architecture-diagram" class="tab-panel"><div class="fact-content"><h2>Architecture Diagram</h2>
+<p>Photo Album is a monolithic Spring Boot 2.7 web application that stores and serves photos using Oracle Database BLOB storage and Thymeleaf server-side rendering.</p>
+<h2>Application Architecture</h2>
+<pre class="mermaid">flowchart TD
+    subgraph Client[&quot;Client Layer&quot;]
+        Browser[&quot;Web Browser&quot;]
+    end
+
+    subgraph App[&quot;Application Layer - Spring Boot 2.7.18&quot;]
+        Web[&quot;Spring MVC + Thymeleaf&quot;]
+        Service[&quot;Business Services&quot;]
+    end
+
+    subgraph Data[&quot;Data Layer&quot;]
+        JPA[&quot;Spring Data JPA / Hibernate&quot;]
+        DB[(&quot;Oracle Database\nBLOB Storage&quot;)]
+    end
+
+    Browser --&gt;|&quot;HTTP requests&quot;| Web
+    Web --&gt;|&quot;delegates&quot;| Service
+    Service --&gt;|&quot;CRUD operations&quot;| JPA
+    JPA --&gt;|&quot;SQL queries + BLOB I/O&quot;| DB</pre>
+<h3>Technology Stack Summary</h3>
+<table class="fact-table"><tbody>
+<tr><td>Layer</td><td>Technology</td><td>Version</td><td>Purpose</td></tr>
+<tr><td>Presentation</td><td>Spring MVC</td><td>2.7.18 (managed)</td><td>HTTP request routing and view rendering</td></tr>
+<tr><td>Presentation</td><td>Thymeleaf</td><td>3.0.x (managed)</td><td>Server-side HTML templating</td></tr>
+<tr><td>Business Logic</td><td>Spring Boot Service</td><td>2.7.18</td><td>Photo upload, validation, retrieval, deletion</td></tr>
+<tr><td>Data Access</td><td>Spring Data JPA</td><td>2.7.18 (managed)</td><td>Repository abstraction for Photo entity</td></tr>
+<tr><td>Data Access</td><td>Hibernate ORM</td><td>5.6.x (managed)</td><td>JPA provider / ORM implementation</td></tr>
+<tr><td>Data Storage</td><td>Oracle Database</td><td>XE / FREEPDB1</td><td>Primary data store with BLOB photo storage</td></tr>
+<tr><td>Runtime</td><td>Java SE</td><td>8</td><td>Application runtime</td></tr>
+<tr><td>Build</td><td>Maven</td><td>3.x</td><td>Dependency management and packaging</td></tr>
+</tbody></table>
+<h3>Data Storage &amp; External Services</h3>
+<p>The application uses a single Oracle Database instance (<code>FREEPDB1</code>) as its only data store. All photo binary data is persisted as BLOB columns directly in the <code>PHOTOS</code> table — no external file system or object storage (e.g., S3) is used. The Oracle JDBC driver (<code>ojdbc8</code>) is used at runtime; H2 is available as an in-memory alternative for test execution only. There are no external service integrations (no email, no CDN, no message broker, no caching layer).</p>
+<h3>Key Architectural Decisions</h3>
+<ul>
+<li><strong>BLOB-in-database storage</strong>: Photo binary data is stored directly in an Oracle BLOB column rather than on a file system or object store, simplifying deployment at the cost of database size growth and potential migration complexity.</li>
+<li><strong>Native SQL queries</strong>: <code>PhotoRepository</code> uses Oracle-specific native SQL (e.g., <code>ROWNUM</code>, <code>TO_CHAR</code>, <code>NVL</code>, analytic functions) rather than JPQL/criteria API, creating a tight vendor dependency on Oracle.</li>
+<li><strong>Stateless monolith</strong>: All application concerns (upload, gallery, detail view, file serving) are handled by a single deployable JAR with no caching tier, no session store, and no horizontal scaling support.</li>
+</ul>
+<h2>Component Relationships</h2>
+<pre class="mermaid">flowchart LR
+    subgraph Presentation[&quot;Presentation&quot;]
+        HomeCtrl[&quot;HomeController&quot;]
+        DetailCtrl[&quot;DetailController&quot;]
+        PhotoFileCtrl[&quot;PhotoFileController&quot;]
+    end
+
+    subgraph Business[&quot;Business Logic&quot;]
+        PhotoSvc[&quot;PhotoService (interface)&quot;]
+        PhotoSvcImpl[&quot;PhotoServiceImpl&quot;]
+    end
+
+    subgraph DataAccess[&quot;Data Access&quot;]
+        PhotoRepo[&quot;PhotoRepository&quot;]
+    end
+
+    subgraph Models[&quot;Models&quot;]
+        PhotoEntity[&quot;Photo (Entity)&quot;]
+        UploadResultDTO[&quot;UploadResult (DTO)&quot;]
+    end
+
+    HomeCtrl --&gt;|&quot;delegates upload/list&quot;| PhotoSvc
+    DetailCtrl --&gt;|&quot;delegates view/delete&quot;| PhotoSvc
+    PhotoFileCtrl --&gt;|&quot;delegates file serve&quot;| PhotoSvc
+    PhotoSvc -.-&gt;|&quot;implemented by&quot;| PhotoSvcImpl
+    PhotoSvcImpl --&gt;|&quot;queries&quot;| PhotoRepo
+    PhotoRepo --&gt;|&quot;manages&quot;| PhotoEntity
+    PhotoSvcImpl --&gt;|&quot;produces&quot;| UploadResultDTO
+    HomeCtrl --&gt;|&quot;reads&quot;| UploadResultDTO</pre>
+<h3>Component Inventory</h3>
+<table class="fact-table"><tbody>
+<tr><td>Component</td><td>Layer</td><td>Type</td><td>Responsibility</td></tr>
+<tr><td>HomeController</td><td>Presentation</td><td>Spring MVC Controller</td><td>Renders gallery index page; handles multi-file upload via POST <code>/upload</code></td></tr>
+<tr><td>DetailController</td><td>Presentation</td><td>Spring MVC Controller</td><td>Renders single-photo detail page (<code>/detail/{id}</code>); handles photo deletion via POST</td></tr>
+<tr><td>PhotoFileController</td><td>Presentation</td><td>Spring MVC Controller</td><td>Serves raw photo bytes from Oracle BLOB via GET <code>/photo/{id}</code></td></tr>
+<tr><td>PhotoService</td><td>Business Logic</td><td>Service Interface</td><td>Defines contract for photo CRUD and navigation operations</td></tr>
+<tr><td>PhotoServiceImpl</td><td>Business Logic</td><td>Service Implementation</td><td>Validates uploads (MIME type, size), reads image dimensions, persists to Oracle, handles deletions and navigation queries</td></tr>
+<tr><td>PhotoRepository</td><td>Data Access</td><td>Spring Data JPA Repository</td><td>Extends <code>JpaRepository</code>; provides native Oracle SQL queries for listing, pagination, navigation, and analytics</td></tr>
+<tr><td>Photo</td><td>Models</td><td>JPA Entity</td><td>Maps <code>PHOTOS</code> table; stores metadata and BLOB binary data</td></tr>
+<tr><td>UploadResult</td><td>Models</td><td>DTO</td><td>Carries upload success/failure status and photo ID back to the controller</td></tr>
+<tr><td>MathUtil</td><td>Utilities</td><td>Utility Class</td><td>Provides GCD calculation for aspect-ratio computations</td></tr>
+<tr><td>PhotoAlbumApplication</td><td>Infrastructure</td><td>Spring Boot Entry Point</td><td>Bootstraps the application context</td></tr>
+</tbody></table></div></div><div id="tab-dependency-map" class="tab-panel"><div class="fact-content"><h2>Dependency Map</h2>
+<p>Photo Album declares 8 non-test external dependencies (all version-managed by the <code>spring-boot-starter-parent</code> 2.7.18 BOM except <code>commons-io</code> which carries an explicit version), plus 2 test-scoped dependencies.</p>
+<h2>Dependencies</h2>
+<pre class="mermaid">flowchart LR
+    App[&quot;Photo Album\ncom.photoalbum:photo-album:1.0.0&quot;]
+    BOM[&quot;spring-boot-starter-parent\nv2.7.18 (BOM)&quot;]
+
+    subgraph Web[&quot;Web Frameworks&quot;]
+        SpringWeb[&quot;spring-boot-starter-web\n(Spring MVC + Tomcat)&quot;]
+        Thymeleaf[&quot;spring-boot-starter-thymeleaf\n(Thymeleaf 3.0.x)&quot;]
+    end
+
+    subgraph DB[&quot;Database / ORM&quot;]
+        DataJPA[&quot;spring-boot-starter-data-jpa\n(Hibernate 5.6.x + Spring Data)&quot;]
+        OracleJDBC[&quot;ojdbc8\n(Oracle JDBC - runtime)&quot;]
+    end
+
+    subgraph Util[&quot;Utilities&quot;]
+        Validation[&quot;spring-boot-starter-validation\n(Hibernate Validator 6.x)&quot;]
+        CommonsIO[&quot;commons-io\nv2.11.0&quot;]
+        JSON[&quot;spring-boot-starter-json\n(Jackson 2.13.x)&quot;]
+        DevTools[&quot;spring-boot-devtools\n(optional - dev only)&quot;]
+    end
+
+    BOM -.-&gt;|&quot;manages versions&quot;| SpringWeb
+    BOM -.-&gt;|&quot;manages versions&quot;| Thymeleaf
+    BOM -.-&gt;|&quot;manages versions&quot;| DataJPA
+    BOM -.-&gt;|&quot;manages versions&quot;| OracleJDBC
+    BOM -.-&gt;|&quot;manages versions&quot;| Validation
+    BOM -.-&gt;|&quot;manages versions&quot;| JSON
+    BOM -.-&gt;|&quot;manages versions&quot;| DevTools
+
+    App --&gt;|&quot;web&quot;| Web
+    App --&gt;|&quot;persistence&quot;| DB
+    App --&gt;|&quot;utilities&quot;| Util</pre>
+<h3>Dependency Summary</h3>
+<table class="fact-table"><tbody>
+<tr><td>Category</td><td>Count</td><td>Key Libraries</td><td>Notes</td></tr>
+<tr><td>Web Frameworks</td><td>2</td><td>spring-boot-starter-web (MVC + embedded Tomcat 9.x), spring-boot-starter-thymeleaf 3.0.x</td><td>Standard Spring Boot MVC stack</td></tr>
+<tr><td>Database / ORM</td><td>2</td><td>spring-boot-starter-data-jpa (Hibernate 5.6.x), ojdbc8 (Oracle JDBC runtime)</td><td>Oracle vendor lock-in; Hibernate 5.x is legacy</td></tr>
+<tr><td>Utilities</td><td>4</td><td>spring-boot-starter-validation (Hibernate Validator 6.x), commons-io 2.11.0, spring-boot-starter-json (Jackson 2.13.x), spring-boot-devtools (optional)</td><td>Validation and file I/O utilities</td></tr>
+</tbody></table>
+<h3>Version &amp; Compatibility Risks</h3>
+<p>The project targets <strong>Java 8</strong> with <strong>Spring Boot 2.7.18</strong> — the last patch release of the Spring Boot 2.7 line, which reached end-of-life in November 2023. Spring Boot 2.x depends on <strong>Hibernate 5.6.x</strong> and <strong>Jakarta EE 8</strong> (<code>javax.<em></code> namespace), both of which are superseded by Hibernate 6.x and Jakarta EE 10 (<code>jakarta.</em></code> namespace) in Spring Boot 3.x. Migrating to Spring Boot 3 requires a Java 17 baseline, namespace migration (<code>javax</code> → <code>jakarta</code>), and Hibernate 6 API changes. The Oracle JDBC driver (<code>ojdbc8</code>) is runtime-scoped and version-managed by the BOM; while <code>ojdbc8</code> is compatible with Oracle 12c–23c, its version is not explicitly pinned, which can lead to unexpected upgrades. <code>commons-io</code> 2.11.0 is a stable release, though 2.16+ is available with additional improvements.</p>
+<h3>Notable Observations</h3>
+<ul>
+<li><strong>No caching layer declared</strong>: There is no Redis, EhCache, or Spring Cache abstraction in the dependency list; all photo BLOBs are loaded directly from Oracle on every request with no in-memory or distributed cache.</li>
+<li><strong>No security framework</strong>: <code>spring-boot-starter-security</code> is absent — all endpoints are unauthenticated and publicly accessible without any authentication or authorisation layer.</li>
+<li><strong>No observability dependencies</strong>: There are no Micrometer, Actuator, or tracing libraries declared; the application cannot expose metrics or health endpoints for operational monitoring.</li>
+<li><strong>BOM manages most versions implicitly</strong>: Only <code>commons-io</code> carries an explicit version (<code>2.11.0</code>); all other dependency versions are inherited from the parent BOM, meaning an upgrade of <code>spring-boot-starter-parent</code> will transitively update Hibernate, Tomcat, Jackson, and the Oracle JDBC driver simultaneously.</li>
+</ul>
+<h2>Test Dependencies</h2>
+<table class="fact-table"><tbody>
+<tr><td>Framework</td><td>Version</td><td>Notes</td></tr>
+<tr><td>spring-boot-starter-test</td><td>2.7.18 (BOM)</td><td>Bundles JUnit 5 (Jupiter), Mockito, AssertJ, Spring Test</td></tr>
+<tr><td>H2 Database</td><td>2.1.x (BOM)</td><td>In-memory JDBC alternative used to replace Oracle in test runs</td></tr>
+</tbody></table>
+<p>Total test-scope dependencies: 2</p>
+<p>The test setup relies on H2 as an Oracle substitute, which may mask Oracle-specific SQL issues (e.g., <code>ROWNUM</code>, <code>TO_CHAR</code>, <code>NVL</code>, analytic functions used in native queries) during testing. No integration test framework (e.g., Testcontainers with a real Oracle image) is declared, leaving Oracle-specific query correctness untested in CI.</p></div></div><div id="tab-api-service-contracts" class="tab-panel"><div class="fact-content"><h2>API &amp; Service Communication Contracts</h2>
+<p>The application exposes 5 HTTP endpoints across 3 Spring MVC controllers — all synchronous, all unauthenticated — with no API gateway, no service discovery, and no asynchronous messaging.</p>
+<h2>Service Catalog</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service</td><td>Port</td><td>Category</td><td>Purpose</td><td>Key Framework</td></tr>
+<tr><td>photoalbum-java-app</td><td>8080</td><td>Business</td><td>Photo gallery web application; handles upload, display, file serving, and deletion</td><td>Spring Boot 2.7.18, Spring MVC, Thymeleaf</td></tr>
+<tr><td>oracle-db</td><td>1521</td><td>Infrastructure</td><td>Oracle Database Free 23ai — third-party container; primary data store (not source-built)</td><td>gvenzl/oracle-free (Docker image)</td></tr>
+</tbody></table>
+<h2>API Endpoints Inventory</h2>
+<table class="fact-table"><tbody>
+<tr><td>Controller</td><td>Method</td><td>Path</td><td>Request Type</td><td>Response Type</td><td>Notes</td></tr>
+<tr><td>HomeController</td><td>GET</td><td><code>/</code></td><td>—</td><td>HTML (Thymeleaf <code>index</code> view)</td><td>Returns full photo gallery page; 200 on success</td></tr>
+<tr><td>HomeController</td><td>POST</td><td><code>/upload</code></td><td><code>multipart/form-data</code> — param <code>files</code> (List of MultipartFile)</td><td>JSON <code>Map</code> (uploadedPhotos, failedUploads) — 200/400</td><td>Returns 400 if no files provided; returns 200 with per-file success/failure details</td></tr>
+<tr><td>DetailController</td><td>GET</td><td><code>/detail/{id}</code></td><td>Path param <code>id</code> (String UUID)</td><td>HTML (Thymeleaf <code>detail</code> view)</td><td>Redirects to <code>/</code> if ID is blank or not found</td></tr>
+<tr><td>DetailController</td><td>POST</td><td><code>/detail/{id}/delete</code></td><td>Path param <code>id</code> (String UUID)</td><td>Redirect 302 to <code>/</code></td><td>Flash attributes carry success/error message</td></tr>
+<tr><td>PhotoFileController</td><td>GET</td><td><code>/photo/{id}</code></td><td>Path param <code>id</code> (String UUID)</td><td>Binary image (<code>ResponseEntity&lt;Resource&gt;</code>)</td><td>Serves raw BLOB bytes from Oracle; Content-Type from stored MIME type; no-cache headers set</td></tr>
+</tbody></table>
+<p>No API versioning scheme (URL path, header, or query parameter) is implemented.</p>
+<h2>Management &amp; Observability Endpoints</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service</td><td>Endpoint</td><td>Custom Metrics</td></tr>
+<tr><td>photoalbum-java-app</td><td>None — Spring Boot Actuator is not declared</td><td>None</td></tr>
+</tbody></table>
+<p>No health check, metrics, info, or Prometheus endpoints are available. The Docker Compose healthcheck uses Oracle&#x27;s built-in <code>healthcheck.sh</code> script on the database container; the application container itself has no readiness or liveness probe.</p>
+<h2>DTOs &amp; Contracts</h2>
+<p><strong>Service-level classes (all owned by the single monolithic service):</strong></p>
+<table class="fact-table"><tbody>
+<tr><td>Class</td><td>Package</td><td>API Role</td><td>Immutability</td><td>Notes</td></tr>
+<tr><td><code>Photo</code></td><td><code>com.photoalbum.model</code></td><td>Response model: photo metadata surfaced in gallery/detail views and in the upload JSON response (fields extracted into a <code>Map</code>)</td><td>Mutable (plain POJO with getters/setters)</td><td>Also a JPA entity — see <code>data-architecture.md</code> for field and persistence details</td></tr>
+<tr><td><code>UploadResult</code></td><td><code>com.photoalbum.model</code></td><td>Internal transfer object — values are unpacked into a raw <code>Map&lt;String, Object&gt;</code> by <code>HomeController</code> before being serialized to JSON</td><td>Mutable (plain POJO)</td><td>Not serialized directly; provides <code>isSuccess()</code>, <code>getPhotoId()</code>, <code>getErrorMessage()</code></td></tr>
+</tbody></table>
+<p>There are no formal request DTO classes; upload requests are handled via Spring&#x27;s <code>MultipartFile</code> parameter binding directly on the controller method.</p>
+<p><strong>No OpenAPI/Swagger specification, no protobuf schemas, and no GraphQL schema are present.</strong> Jackson (via <code>spring-boot-starter-json</code>) is the JSON serializer used for the <code>/upload</code> response; Thymeleaf handles HTML view rendering for all other endpoints. No custom Jackson serializers or module registrations are configured.</p>
+<h2>Communication Patterns</h2>
+<p><strong>Synchronous communication only.</strong> All client-to-application interactions are direct HTTP requests to the Spring MVC application. There is no inter-service REST communication (no <code>RestTemplate</code>, <code>WebClient</code>, or Feign client); the monolith handles all logic internally.</p>
+<p><strong>Asynchronous messaging:</strong> None. No Kafka, RabbitMQ, Azure Service Bus, or any other message broker is declared or used.</p>
+<p><strong>Resilience patterns:</strong> None. No circuit breaker (Resilience4j, Spring Retry), no timeout configuration beyond the default Tomcat request timeout, and no retry or bulkhead policies are implemented.</p>
+<p><strong>Service discovery:</strong> None. The application connects to Oracle using a hardcoded JDBC URL (<code>jdbc:oracle:thin:@oracle-db:1521/FREEPDB1</code>); service resolution relies on Docker Compose bridge networking (DNS alias <code>oracle-db</code>), not a service registry.</p>
+<p><strong>API gateway:</strong> None. There is no Spring Cloud Gateway, Nginx reverse proxy, or any gateway layer in front of the application.</p>
+<p><strong>Startup dependency chain:</strong> The Docker Compose definition requires <code>oracle-db</code> to pass its health check before <code>photoalbum-java-app</code> starts. See <code>configuration-inventory.md</code> for full probe and wait mechanism details.</p>
+<p><strong>Security posture:</strong> No authentication, authorization, or transport security is configured at any level. <code>spring-boot-starter-security</code> is not declared. All 5 endpoints — including the upload (<code>POST /upload</code>) and delete (<code>POST /detail/{id}/delete</code>) mutation endpoints — are publicly accessible with no credentials, session, token, or role checks. No HTTPS/TLS is configured; the application listens on plain HTTP port 8080.</p>
+<h2>Service Technology Matrix</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service</td><td>Web Framework</td><td>Data Access</td><td>Discovery</td><td>Gateway</td><td>Actuator</td><td>Cache</td><td>Metrics</td></tr>
+<tr><td>photoalbum-java-app</td><td>Spring MVC (Servlet/MVC)</td><td>Spring Data JPA + Hibernate 5.x</td><td>None</td><td>None</td><td>None</td><td>None</td><td>None</td></tr>
+<tr><td>oracle-db</td><td>N/A (third-party)</td><td>N/A</td><td>None</td><td>None</td><td>Oracle healthcheck.sh</td><td>N/A</td><td>None</td></tr>
+</tbody></table>
+<h2>Service Communication Sequence</h2>
+<pre class="mermaid">sequenceDiagram
+    participant Client as &quot;Browser&quot;
+    participant App as &quot;photoalbum-java-app&quot;
+    participant DB as &quot;Oracle Database&quot;
+
+    Note over Client,DB: Photo Upload Flow
+    Client-&gt;&gt;App: POST /upload (multipart files)
+    App-&gt;&gt;App: Validate MIME type and file size
+    alt Validation passes
+        App-&gt;&gt;App: Read bytes, extract image dimensions
+        App-&gt;&gt;DB: INSERT into PHOTOS (BLOB data)
+        DB--&gt;&gt;App: Saved Photo record
+        App--&gt;&gt;Client: 200 JSON (uploadedPhotos list)
+    else Validation fails
+        App--&gt;&gt;Client: 400 JSON (error message)
+    end
+
+    Note over Client,DB: Photo Gallery View
+    Client-&gt;&gt;App: GET /
+    App-&gt;&gt;DB: SELECT * FROM PHOTOS ORDER BY UPLOADED_AT DESC
+    DB--&gt;&gt;App: List of Photo records
+    App--&gt;&gt;Client: 200 HTML (gallery page)
+
+    Note over Client,DB: Serve Photo Binary
+    Client-&gt;&gt;App: GET /photo/{id}
+    App-&gt;&gt;DB: SELECT PHOTO_DATA FROM PHOTOS WHERE ID = id
+    alt Photo found and has BLOB data
+        DB--&gt;&gt;App: Photo record with BLOB bytes
+        App--&gt;&gt;Client: 200 image/jpeg (or other MIME type)
+    else Not found or empty data
+        DB--&gt;&gt;App: Empty result
+        App--&gt;&gt;Client: 404 Not Found
+    end
+
+    Note over Client,DB: Delete Photo
+    Client-&gt;&gt;App: POST /detail/{id}/delete
+    App-&gt;&gt;DB: SELECT + DELETE FROM PHOTOS WHERE ID = id
+    DB--&gt;&gt;App: Deleted
+    App--&gt;&gt;Client: 302 Redirect to /</pre></div></div><div id="tab-data-architecture" class="tab-panel"><div class="fact-content"><h2>Data Architecture &amp; Persistence Layer</h2>
+<p>The application has a single JPA entity (<code>Photo</code>) backed by an Oracle Database, with no inter-entity relationships; all binary photo data is persisted as an Oracle BLOB column and retrieved via Hibernate 5.x / Spring Data JPA.</p>
+<h2>Database Configuration</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service/Module</td><td>DB Type</td><td>Profile</td><td>Driver</td><td>Connection Behavior</td><td>Migration Tool</td></tr>
+<tr><td>photoalbum-java-app</td><td>Oracle Database (FREEPDB1)</td><td>default (local dev)</td><td>ojdbc8 (runtime, BOM-managed)</td><td>HikariCP connection pool (Spring Boot default); connects to <code>oracle-db:1521/FREEPDB1</code></td><td>None — Hibernate <code>ddl-auto=create</code> drops and recreates the schema on each startup</td></tr>
+<tr><td>photoalbum-java-app</td><td>Oracle Database (FREEPDB1)</td><td>docker</td><td>ojdbc8 (runtime, BOM-managed)</td><td>Same as default; JDBC URL and credentials supplied via Docker Compose environment variables</td><td>None — Hibernate <code>ddl-auto=create</code></td></tr>
+<tr><td>photoalbum-java-app (tests)</td><td>H2 (in-memory)</td><td>test</td><td>H2 (test-scoped BOM-managed)</td><td>In-memory JDBC; used by JUnit tests to substitute Oracle</td><td>None — Hibernate auto-creates schema from entity metadata</td></tr>
+</tbody></table>
+<p>No Flyway, Liquibase, or any versioned migration tool is in use. Schema management is fully delegated to Hibernate&#x27;s DDL generation with <code>create</code> strategy, meaning <strong>every application restart drops and recreates all tables</strong>. The <code>oracle-init/</code> directory contains user provisioning scripts (<code>01-create-user.sql</code>, <code>02-verify-user.sql</code>) run by the Oracle container on first launch — these grant privileges to the <code>photoalbum</code> schema user but do not define the <code>PHOTOS</code> table (Hibernate does this). No <code>data.sql</code>, <code>import.sql</code>, or programmatic seed data files are present.</p>
+<h2>Data Ownership per Service</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service</td><td>Tables Owned</td><td>ORM Framework</td><td>Caching</td><td>Notes</td></tr>
+<tr><td>photoalbum-java-app</td><td>PHOTOS</td><td>Hibernate 5.6.x via Spring Data JPA</td><td>None</td><td>Single-table schema; BLOB column stores full photo binary data; non-CRUD queries use Oracle-specific native SQL</td></tr>
+</tbody></table>
+<h2>Entity Model</h2>
+<pre class="mermaid">erDiagram
+    PHOTOS {
+        string id PK &quot;UUID VARCHAR2(36)&quot;
+        string originalFileName &quot;ORIGINAL_FILE_NAME NOT NULL&quot;
+        blob photoData &quot;PHOTO_DATA nullable BLOB&quot;
+        string storedFileName &quot;STORED_FILE_NAME NOT NULL&quot;
+        string filePath &quot;FILE_PATH nullable&quot;
+        number fileSize &quot;FILE_SIZE NOT NULL NUMBER(19,0)&quot;
+        string mimeType &quot;MIME_TYPE NOT NULL VARCHAR2(50)&quot;
+        timestamp uploadedAt &quot;UPLOADED_AT NOT NULL indexed&quot;
+        number width &quot;WIDTH nullable&quot;
+        number height &quot;HEIGHT nullable&quot;
+    }</pre>
+<p>The <code>Photo</code> entity is the sole JPA entity in the application. It is a flat, self-contained entity with no relationships to other entities (no <code>@OneToMany</code>, <code>@ManyToOne</code>, or join columns). Navigation between photos (previous/next) is implemented at the repository query level using timestamp comparisons rather than entity associations.</p>
+<p><strong>Transaction management:</strong> <code>PhotoServiceImpl</code> is annotated <code>@Transactional</code> at the class level, with individual read methods overriding to <code>@Transactional(readOnly = true)</code>. There are no nested transactions, no <code>@Transactional</code> propagation customisations, and no distributed transaction (XA) configuration.</p>
+<p><strong>Entity source file:</strong> <code>src/main/java/com/photoalbum/model/Photo.java</code></p>
+<h2>Key Repository Methods</h2>
+<table class="fact-table"><tbody>
+<tr><td>Repository</td><td>Entity</td><td>Method</td><td>Return Type</td><td>Purpose</td></tr>
+<tr><td><code>PhotoRepository</code></td><td><code>Photo</code></td><td><code>findAllOrderByUploadedAtDesc()</code></td><td><code>List&lt;Photo&gt;</code></td><td>Full table scan ordered descending by <code>UPLOADED_AT</code>; used for the gallery index page</td></tr>
+<tr><td><code>PhotoRepository</code></td><td><code>Photo</code></td><td><code>findPhotosUploadedBefore(LocalDateTime uploadedAt)</code></td><td><code>List&lt;Photo&gt;</code></td><td>Oracle native query with <code>ROWNUM &lt;= 10</code>; retrieves up to 10 photos older than the given timestamp for backward navigation</td></tr>
+<tr><td><code>PhotoRepository</code></td><td><code>Photo</code></td><td><code>findPhotosUploadedAfter(LocalDateTime uploadedAt)</code></td><td><code>List&lt;Photo&gt;</code></td><td>Oracle native query; retrieves photos newer than the given timestamp ordered ascending for forward navigation</td></tr>
+<tr><td><code>PhotoRepository</code></td><td><code>Photo</code></td><td><code>findPhotosByUploadMonth(String year, String month)</code></td><td><code>List&lt;Photo&gt;</code></td><td>Oracle-specific <code>TO_CHAR(UPLOADED_AT, &#x27;YYYY&#x27;/&#x27;MM&#x27;)</code> filter; enables month-based browsing</td></tr>
+<tr><td><code>PhotoRepository</code></td><td><code>Photo</code></td><td><code>findPhotosWithPagination(int startRow, int endRow)</code></td><td><code>List&lt;Photo&gt;</code></td><td>Oracle <code>ROWNUM</code>-based offset pagination (nested subquery pattern)</td></tr>
+<tr><td><code>PhotoRepository</code></td><td><code>Photo</code></td><td><code>findPhotosWithStatistics()</code></td><td><code>List&lt;Object[]&gt;</code></td><td>Oracle analytic functions: <code>RANK() OVER (ORDER BY FILE_SIZE DESC)</code> and <code>SUM(FILE_SIZE) OVER (...)</code> running total</td></tr>
+</tbody></table>
+<p><strong>Repository source file:</strong> <code>src/main/java/com/photoalbum/repository/PhotoRepository.java</code></p>
+<p>All custom methods use Oracle-specific native SQL (<code>nativeQuery = true</code>). Standard inherited CRUD methods (<code>save</code>, <code>findById</code>, <code>delete</code>) are also used by the service layer. The heavy reliance on native queries with Oracle-specific syntax (<code>ROWNUM</code>, <code>TO_CHAR</code>, <code>NVL</code>, analytical functions) makes this repository non-portable without query rewrites.</p>
+<h2>Caching Strategy</h2>
+<p>No caching layer is configured. There are no <code>@Cacheable</code>, <code>@CacheEvict</code>, or <code>@EnableCaching</code> annotations in the codebase, no Spring Cache abstraction in use, and no second-level Hibernate cache configured. Every photo listing, detail view, and BLOB retrieval results in a direct database round-trip. Given that photo BLOB data can be up to 10 MB per file, the absence of any response-level or query-result cache represents a significant I/O concern under concurrent load.</p>
+<h2>Data Ownership Boundaries</h2>
+<p>The application is a single-service monolith with one Oracle database instance. There is only one data store and one service accessing it — there are no cross-service data access patterns, no shared-database anti-patterns across services, and no CQRS separation. The <code>PHOTOS</code> table is the sole data store for all reads and writes performed by <code>photoalbum-java-app</code>.</p>
+<p>Read/write split is minimal: read operations use <code>@Transactional(readOnly = true)</code> on the service methods, which hints HikariCP to use a read connection, but there is no read replica, no event sourcing, and no separate read model.</p>
+<h3>Data Classification &amp; Sensitivity</h3>
+<table class="fact-table"><tbody>
+<tr><td>Entity</td><td>Fields</td><td>Classification</td><td>Controls in Place</td></tr>
+<tr><td>Photo</td><td><code>originalFileName</code></td><td>Low — filename string provided by the uploader; may contain user-identifiable naming patterns</td><td>None</td></tr>
+<tr><td>Photo</td><td><code>photoData</code> (BLOB)</td><td>Potentially sensitive — binary image content may include faces, personal scenes, or metadata embedded in image files (EXIF)</td><td>None — no encryption-at-rest, no EXIF stripping, no content scanning</td></tr>
+<tr><td>Photo</td><td><code>storedFileName</code>, <code>filePath</code>, <code>mimeType</code>, <code>fileSize</code>, <code>width</code>, <code>height</code>, <code>uploadedAt</code></td><td>Non-sensitive operational metadata</td><td>None required</td></tr>
+</tbody></table>
+<p>No explicit PII fields (names, email addresses, phone numbers), PHI, or PCI data are declared in the entity model. However, the <code>photoData</code> BLOB stores raw uploaded image files, which may contain embedded EXIF metadata (GPS coordinates, device identifiers, author names) or personally identifiable visual content. No EXIF stripping, content moderation, or encryption-at-rest is implemented. The database password is stored in plain text in <code>application.properties</code> and Docker Compose environment variables; see <code>configuration-inventory.md</code> for secrets configuration details.</p></div></div><div id="tab-configuration-inventory" class="tab-panel"><div class="fact-content"><h2>Configuration &amp; Externalized Settings Inventory</h2>
+<p>The application uses 3 Spring properties files (default, docker, and test profiles) plus Docker Compose environment variable overrides as its only configuration sources; there is no external config server, secret store, or feature flag framework.</p>
+<h2>Configuration Sources</h2>
+<table class="fact-table"><tbody>
+<tr><td>Source</td><td>Type</td><td>Path/Location</td><td>Notes</td></tr>
+<tr><td>application.properties</td><td>Spring properties (default profile)</td><td><code>src/main/resources/application.properties</code></td><td>Active when no profile is explicitly set; targets Oracle <code>oracle-db:1521/FREEPDB1</code></td></tr>
+<tr><td>application-docker.properties</td><td>Spring properties (docker profile)</td><td><code>src/main/resources/application-docker.properties</code></td><td>Activated by <code>SPRING_PROFILES_ACTIVE=docker</code>; same Oracle settings, with logging adjustments</td></tr>
+<tr><td>application-test.properties</td><td>Spring properties (test profile)</td><td><code>src/test/resources/application-test.properties</code></td><td>Used during JUnit test runs; substitutes Oracle with H2 in-memory DB</td></tr>
+<tr><td>docker-compose.yml (env section)</td><td>Docker Compose environment variables</td><td><code>docker-compose.yml</code> (photoalbum-java-app service)</td><td>Overrides <code>SPRING_PROFILES_ACTIVE</code>, <code>SPRING_DATASOURCE_URL</code>, <code>SPRING_DATASOURCE_USERNAME</code>, <code>SPRING_DATASOURCE_PASSWORD</code> at container startup</td></tr>
+<tr><td>Dockerfile ENV</td><td>Docker image environment variable</td><td><code>Dockerfile</code> (<code>ENV JAVA_OPTS</code>)</td><td>Sets default JVM heap options (<code>-Xmx512m -Xms256m</code>) baked into the image</td></tr>
+</tbody></table>
+<p>No Spring Cloud Config server, Azure App Configuration, AWS AppConfig, Consul KV, HashiCorp Vault, or Azure Key Vault is referenced anywhere in the project.</p>
+<h2>Build Profiles</h2>
+<p>No Maven build profiles (<code>&lt;profiles&gt;</code>) are defined in <code>pom.xml</code>. The build configuration is flat — a single <code>spring-boot-maven-plugin</code> handles packaging. The Dockerfile build stage explicitly calls <code>mvn clean package -DskipTests</code> using the <code>maven:3.9.6-eclipse-temurin-8</code> image.</p>
+<table class="fact-table"><tbody>
+<tr><td>Profile</td><td>Activation</td><td>Purpose</td><td>Key Dependencies/Plugins</td></tr>
+<tr><td>(default — no profiles)</td><td>Automatic (always active)</td><td>Standard compile/package with Spring Boot fat-JAR</td><td><code>spring-boot-maven-plugin</code> (repackage goal)</td></tr>
+</tbody></table>
+<h2>Runtime Profiles</h2>
+<table class="fact-table"><tbody>
+<tr><td>Profile</td><td>Activation Method</td><td>Config Files</td><td>Key Overrides vs Default</td></tr>
+<tr><td>(default)</td><td>No active profile set; local development</td><td><code>application.properties</code></td><td>Baseline — Oracle at <code>oracle-db:1521/FREEPDB1</code>; <code>show-sql=true</code>; DEBUG logging</td></tr>
+<tr><td>docker</td><td><code>SPRING_PROFILES_ACTIVE=docker</code> env var (Docker Compose)</td><td><code>application.properties</code> + <code>application-docker.properties</code></td><td>Oracle URL from env var; <code>show-sql=true</code>; INFO log for app, WARN for Spring Web, DEBUG for Hibernate SQL</td></tr>
+<tr><td>test</td><td>Applied automatically by Spring Test (<code>@SpringBootTest</code> or <code>@DataJpaTest</code>)</td><td><code>application-test.properties</code></td><td>H2 in-memory DB; <code>ddl-auto=create-drop</code>; <code>show-sql=false</code>; <code>upload-path=target/test-uploads</code></td></tr>
+</tbody></table>
+<h2>Properties Inventory</h2>
+<h3>photoalbum-java-app</h3>
+<table class="fact-table"><tbody>
+<tr><td>Property Key</td><td>Default (application.properties)</td><td>docker Override</td><td>test Override</td><td>Source</td></tr>
+<tr><td><code>server.port</code></td><td><code>8080</code></td><td><code>8080</code> (explicit)</td><td>—</td><td>Static config</td></tr>
+<tr><td><code>server.servlet.encoding.charset</code></td><td><code>UTF-8</code></td><td><code>UTF-8</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>server.servlet.encoding.enabled</code></td><td><code>true</code></td><td><code>true</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>server.servlet.encoding.force</code></td><td><code>true</code></td><td><code>true</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>spring.datasource.url</code></td><td><code>jdbc:oracle:thin:@oracle-db:1521/FREEPDB1</code></td><td><code>${SPRING_DATASOURCE_URL}</code> (env var)</td><td><code>jdbc:h2:mem:testdb</code></td><td>Static config / env var override</td></tr>
+<tr><td><code>spring.datasource.username</code></td><td><code>photoalbum</code></td><td><code>${SPRING_DATASOURCE_USERNAME}</code> (env var)</td><td><code>sa</code></td><td>Static config / env var override</td></tr>
+<tr><td><code>spring.datasource.password</code></td><td><code>photoalbum</code> [MASKED]</td><td><code>${SPRING_DATASOURCE_PASSWORD}</code> (env var) [MASKED]</td><td><em>(empty)</em></td><td>Static config / env var override</td></tr>
+<tr><td><code>spring.datasource.driver-class-name</code></td><td><code>oracle.jdbc.OracleDriver</code></td><td><code>oracle.jdbc.OracleDriver</code></td><td><code>org.h2.Driver</code></td><td>Static config</td></tr>
+<tr><td><code>spring.jpa.database-platform</code></td><td><code>org.hibernate.dialect.OracleDialect</code></td><td><code>org.hibernate.dialect.OracleDialect</code></td><td><code>org.hibernate.dialect.H2Dialect</code></td><td>Static config</td></tr>
+<tr><td><code>spring.jpa.hibernate.ddl-auto</code></td><td><code>create</code></td><td><code>create</code></td><td><code>create-drop</code></td><td>Static config</td></tr>
+<tr><td><code>spring.jpa.show-sql</code></td><td><code>true</code></td><td><code>true</code></td><td><code>false</code></td><td>Static config</td></tr>
+<tr><td><code>spring.jpa.properties.hibernate.format_sql</code></td><td><code>true</code></td><td><code>true</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>spring.servlet.multipart.max-file-size</code></td><td><code>10MB</code></td><td><code>10MB</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>spring.servlet.multipart.max-request-size</code></td><td><code>50MB</code></td><td><code>50MB</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>app.file-upload.max-file-size-bytes</code></td><td><code>10485760</code></td><td><code>10485760</code></td><td><code>10485760</code></td><td>Static config</td></tr>
+<tr><td><code>app.file-upload.allowed-mime-types</code></td><td><code>image/jpeg,image/png,image/gif,image/webp</code></td><td><code>image/jpeg,image/png,image/gif,image/webp</code></td><td><code>image/jpeg,image/png,image/gif,image/webp</code></td><td>Static config</td></tr>
+<tr><td><code>app.file-upload.max-files-per-upload</code></td><td><code>10</code></td><td><code>10</code></td><td><code>10</code></td><td>Static config</td></tr>
+<tr><td><code>app.file-upload.upload-path</code></td><td>— (not declared)</td><td>—</td><td><code>target/test-uploads</code></td><td>Test config only</td></tr>
+<tr><td><code>logging.level.com.photoalbum</code></td><td><code>DEBUG</code></td><td><code>INFO</code></td><td><code>DEBUG</code></td><td>Static config</td></tr>
+<tr><td><code>logging.level.org.springframework.web</code></td><td><code>DEBUG</code></td><td><code>WARN</code></td><td>—</td><td>Static config</td></tr>
+<tr><td><code>logging.level.org.hibernate.SQL</code></td><td>—</td><td><code>DEBUG</code></td><td>—</td><td>Docker config only</td></tr>
+</tbody></table>
+<h2>Startup Parameters &amp; Resource Requirements</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service</td><td>JVM / Runtime Options</td><td>Memory</td><td>Instance Count</td></tr>
+<tr><td>photoalbum-java-app</td><td><code>JAVA_OPTS=-Xmx512m -Xms256m</code> (baked into Dockerfile ENV); heap injected via <code>java $JAVA_OPTS -jar app.jar</code> entrypoint</td><td>No Docker <code>mem_limit</code> specified in docker-compose.yml — container may use host memory up to JVM heap limit</td><td>1 (no scaling configured)</td></tr>
+<tr><td>oracle-db</td><td>N/A (third-party container, Oracle-managed JVM)</td><td>No <code>mem_limit</code> in docker-compose.yml</td><td>1</td></tr>
+</tbody></table>
+<p>No Kubernetes resource requests/limits, no JVM GC flags, and no additional <code>-D</code> system properties are configured beyond the heap settings.</p>
+<h2>Startup Dependency Chain</h2>
+<pre><code>oracle-db
+  └─► healthcheck: healthcheck.sh (interval: 30s, timeout: 10s, retries: 15, start_period: 180s)
+        └─► (condition: service_healthy) ──► photoalbum-java-app starts</code></pre>
+<ol>
+<li><strong>oracle-db</strong> starts first; Docker Compose waits up to ~(<code>start_period</code> 180s + 15 × 30s = 630s) for Oracle&#x27;s built-in <code>healthcheck.sh</code> to return healthy.</li>
+<li><strong>photoalbum-java-app</strong> starts only after <code>oracle-db</code> passes the health check (<code>condition: service_healthy</code>).</li>
+<li>The app container has <code>restart: on-failure</code> — it will restart automatically if it crashes (e.g., if Oracle becomes unavailable after initial startup).</li>
+</ol>
+<p>No Spring Boot Actuator health endpoints are configured on the application side. There are no Kubernetes readiness/liveness probes and no <code>dockerize</code> wait-for-TCP mechanism at the application level.</p>
+<h2>Secrets &amp; Sensitive Configuration</h2>
+<table class="fact-table"><tbody>
+<tr><td>Secret Reference</td><td>Type</td><td>Configured In</td><td>Storage</td></tr>
+<tr><td><code>spring.datasource.password</code></td><td>Oracle DB password</td><td><code>application.properties</code></td><td><strong>Plain text</strong> [MASKED]</td></tr>
+<tr><td><code>spring.datasource.password</code></td><td>Oracle DB password (docker profile)</td><td><code>application-docker.properties</code></td><td>Plain text [MASKED] — overridden at runtime by <code>SPRING_DATASOURCE_PASSWORD</code> env var</td></tr>
+<tr><td><code>SPRING_DATASOURCE_PASSWORD</code></td><td>Oracle DB password</td><td><code>docker-compose.yml</code> (env section)</td><td><strong>Plain text</strong> in Compose YAML [MASKED]</td></tr>
+<tr><td><code>ORACLE_PASSWORD</code></td><td>Oracle sys/system password</td><td><code>docker-compose.yml</code> (oracle-db env section)</td><td><strong>Plain text</strong> in Compose YAML [MASKED]</td></tr>
+<tr><td><code>APP_USER_PASSWORD</code></td><td>Oracle app user password</td><td><code>docker-compose.yml</code> (oracle-db env section)</td><td><strong>Plain text</strong> in Compose YAML [MASKED]</td></tr>
+</tbody></table>
+<h3>Secrets Provisioning Workflow</h3>
+<p>There is <strong>no secrets management system</strong> in use. All credentials are stored as plain text directly in source-committed files (<code>application.properties</code>, <code>application-docker.properties</code>, <code>docker-compose.yml</code>). The provisioning workflow is:</p>
+<ol>
+<li>Developer/operator provides Oracle DB credentials as literal values in <code>application.properties</code> (for local runs) or Docker Compose YAML (for containerised runs).</li>
+<li>At container startup, Docker Compose injects <code>SPRING_DATASOURCE_URL</code>, <code>SPRING_DATASOURCE_USERNAME</code>, and <code>SPRING_DATASOURCE_PASSWORD</code> as environment variables, which Spring Boot resolves via the <code>${...}</code> placeholder in <code>application-docker.properties</code>.</li>
+<li>The Oracle container reads <code>ORACLE_PASSWORD</code>, <code>APP_USER</code>, and <code>APP_USER_PASSWORD</code> from its own environment section to initialise the database user on first launch.</li>
+</ol>
+<p>No managed identity, service principal, RBAC, Key Vault binding, GitHub Actions secrets injection, or any encrypted secret mechanism is present. Rotating credentials requires direct file edits and a container rebuild/restart.</p>
+<h2>Feature Flags</h2>
+<p>No feature flag framework (LaunchDarkly, Unleash, Spring Feature Flags, or <code>@ConditionalOnProperty</code>) is used. The <code>app.file-upload.*</code> properties function as operational limits rather than feature toggles, but they are not wired to any conditional bean registration.</p>
+<table class="fact-table"><tbody>
+<tr><td>Property</td><td>Default</td><td>Controlled By</td><td>Effect</td></tr>
+<tr><td><code>app.file-upload.max-file-size-bytes</code></td><td><code>10485760</code> (10 MB)</td><td>Properties file</td><td>Maximum allowed upload size per file</td></tr>
+<tr><td><code>app.file-upload.allowed-mime-types</code></td><td><code>image/jpeg,image/png,image/gif,image/webp</code></td><td>Properties file</td><td>Allowed MIME types for upload</td></tr>
+<tr><td><code>app.file-upload.max-files-per-upload</code></td><td><code>10</code></td><td>Properties file</td><td>Maximum number of files per upload request</td></tr>
+</tbody></table>
+<h2>Framework &amp; Runtime Versions</h2>
+<table class="fact-table"><tbody>
+<tr><td>Component</td><td>Version</td><td>Source</td></tr>
+<tr><td>Spring Boot</td><td>2.7.18</td><td><code>pom.xml</code> parent BOM</td></tr>
+<tr><td>Java (compile target)</td><td>8 (1.8)</td><td><code>pom.xml</code> <code>&lt;java.version&gt;</code></td></tr>
+<tr><td>Java runtime (container)</td><td>Eclipse Temurin 8 JRE</td><td><code>Dockerfile</code> (<code>eclipse-temurin:8-jre</code>)</td></tr>
+<tr><td>Maven (build stage)</td><td>3.9.6</td><td><code>Dockerfile</code> (<code>maven:3.9.6-eclipse-temurin-8</code>)</td></tr>
+<tr><td>Hibernate ORM</td><td>5.6.x</td><td>Spring Boot 2.7.18 BOM (transitive)</td></tr>
+<tr><td>Spring Data JPA</td><td>2.7.18</td><td>Spring Boot 2.7.18 BOM (transitive)</td></tr>
+<tr><td>Thymeleaf</td><td>3.0.x</td><td>Spring Boot 2.7.18 BOM (transitive)</td></tr>
+<tr><td>Embedded Tomcat</td><td>9.0.x</td><td>Spring Boot 2.7.18 BOM (transitive)</td></tr>
+<tr><td>Jackson</td><td>2.13.x</td><td>Spring Boot 2.7.18 BOM (transitive)</td></tr>
+<tr><td>Hibernate Validator</td><td>6.x</td><td>Spring Boot 2.7.18 BOM (transitive)</td></tr>
+<tr><td>commons-io</td><td>2.11.0</td><td><code>pom.xml</code> explicit declaration</td></tr>
+<tr><td>H2 (test)</td><td>2.1.x</td><td>Spring Boot 2.7.18 BOM (transitive, test scope)</td></tr>
+<tr><td>Oracle JDBC (ojdbc8)</td><td>BOM-managed</td><td>Spring Boot 2.7.18 BOM (runtime scope)</td></tr>
+<tr><td>Docker build image</td><td>maven:3.9.6-eclipse-temurin-8</td><td><code>Dockerfile</code> (build stage)</td></tr>
+<tr><td>Docker runtime image</td><td>eclipse-temurin:8-jre</td><td><code>Dockerfile</code> (final stage)</td></tr>
+<tr><td>Oracle Database container</td><td>gvenzl/oracle-free:latest</td><td><code>docker-compose.yml</code> (floating tag — not pinned)</td></tr>
+</tbody></table></div></div><div id="tab-business-workflows" class="tab-panel"><div class="fact-content"><h2>Core Business Workflows</h2>
+<p>Photo Album is a personal photo management application that allows users to upload image files, browse them in a gallery, view individual photos with navigation, and delete photos they no longer want.</p>
+<h2>Domain Entities</h2>
+<table class="fact-table"><tbody>
+<tr><td>Entity</td><td>Service / Bounded Context</td><td>Description</td><td>Key Relationships</td></tr>
+<tr><td>Photo</td><td>Photo Management (sole bounded context)</td><td>A digital image uploaded by a user, carrying binary content and descriptive metadata (original name, MIME type, dimensions, file size, and upload timestamp)</td><td>Self-contained; no relationships to other entities. Navigation between photos is derived from upload timestamp ordering rather than entity associations.</td></tr>
+</tbody></table>
+<h2>Service-to-Domain Mapping</h2>
+<table class="fact-table"><tbody>
+<tr><td>Service</td><td>Domain Context</td><td>Owned Entities</td><td>External Dependencies</td></tr>
+<tr><td>photoalbum-java-app</td><td>Photo Management</td><td>Photo</td><td>Oracle Database (sole data store for all photo data and metadata)</td></tr>
+</tbody></table>
+<p>The application is a single-service monolith with one bounded context. There are no cross-service data exchanges, no event bus, and no shared-database anti-patterns across services.</p>
+<h2>Primary Workflows</h2>
+<h3>Workflow 1: Photo Upload</h3>
+<p>A user selects one or more image files from their device and submits them. The system processes each file independently and returns a combined result.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>User selects one or more files and submits the upload form (via browser JavaScript client).</li>
+<li>For each submitted file the system checks:</li>
+</ol>
+<p>   - <strong>MIME type validation</strong>: file content type must be in the allowed list (JPEG, PNG, GIF, WebP); rejected files return an error immediately.</p>
+<p>   - <strong>File size validation</strong>: file must not exceed the configured maximum (default 10 MB); over-size files are rejected.</p>
+<p>   - <strong>Empty file check</strong>: zero-byte files are rejected.</p>
+<ol>
+<li>For files that pass validation, the system reads the full byte array into memory.</li>
+<li>The system attempts to decode the byte array as an image to extract pixel dimensions (width × height); if decoding fails the upload continues without dimensions.</li>
+<li>A unique UUID-based storage filename is generated; the full byte array and all metadata are persisted to Oracle as a new <code>Photo</code> record.</li>
+<li>The system returns a JSON response listing all successfully uploaded photos (with their IDs and metadata) and all failed uploads (with per-file error messages).</li>
+</ol>
+<p><strong>Business rules applied:</strong> MIME type whitelist, file size ceiling, non-empty file requirement, UUID identity generation.</p>
+<hr>
+<h3>Workflow 2: Browse Gallery</h3>
+<p>A user visits the home page to see all uploaded photos.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>User navigates to the gallery root URL.</li>
+<li>The system retrieves all <code>Photo</code> records ordered newest-first by upload timestamp.</li>
+<li>The gallery page is rendered; each photo is displayed as a thumbnail image loaded directly from the database BLOB via a per-photo URL.</li>
+<li>If the database query fails, the gallery renders an empty list rather than an error page, preserving a usable UI.</li>
+</ol>
+<hr>
+<h3>Workflow 3: View Photo Detail and Navigate</h3>
+<p>A user clicks on a gallery thumbnail to see the full-size photo and navigate to adjacent photos.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>User requests the detail page for a specific photo by UUID.</li>
+<li>The system looks up the <code>Photo</code> by ID; if not found or ID is blank, the user is redirected back to the gallery.</li>
+<li>The system queries for the immediately preceding photo (older by timestamp) and the immediately following photo (newer by timestamp) to populate the navigation arrows.</li>
+<li>The detail page is rendered showing the full-size image, the original filename, and previous/next navigation links.</li>
+</ol>
+<hr>
+<h3>Workflow 4: Serve Photo Binary</h3>
+<p>The browser requests the raw image bytes for display inside an <code>&lt;img&gt;</code> tag.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Browser issues a request for a photo binary by UUID.</li>
+<li>The system retrieves the <code>Photo</code> record including its BLOB data.</li>
+<li>If the record is missing or the BLOB is empty, a 404 is returned.</li>
+<li>Otherwise, the raw byte array is returned with the stored MIME type as the response content type, and aggressive no-cache headers to prevent stale image display after deletion or re-upload.</li>
+</ol>
+<hr>
+<h3>Workflow 5: Delete Photo</h3>
+<p>A user removes a photo from the album.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>User submits the delete action from the photo detail page.</li>
+<li>The system looks up the <code>Photo</code> by ID.</li>
+<li>If found, the record (including its BLOB data) is deleted from Oracle.</li>
+<li>The user is redirected to the gallery with a success flash message. If the photo was not found, a &quot;not found&quot; flash message is shown instead. If deletion fails due to an exception, an error flash message is shown.</li>
+</ol>
+<h2>Cross-Service Data Flows</h2>
+<p>The application is a single-service monolith; there are no cross-service data flows, gateway aggregation patterns, or circuit-breaker fallback paths involving multiple services. All data originates from and is written to the single Oracle Database instance directly managed by <code>photoalbum-java-app</code>.</p>
+<p>The only composition that occurs is within the <strong>View Photo Detail</strong> workflow, where the service makes two additional database queries (for the previous and next photo) alongside the primary photo lookup in order to assemble the navigation context — all within the same service and transactional session.</p>
+<h2>Business Workflow Sequence</h2>
+<pre class="mermaid">sequenceDiagram
+    participant User as &quot;User (Browser)&quot;
+    participant App as &quot;photoalbum-java-app&quot;
+    participant DB as &quot;Oracle Database&quot;
+
+    Note over User,DB: Photo Upload Workflow
+    User-&gt;&gt;App: Select files and submit upload
+    loop For each file
+        App-&gt;&gt;App: Check MIME type is allowed
+        App-&gt;&gt;App: Check file size within limit
+        App-&gt;&gt;App: Check file is not empty
+        alt All validations pass
+            App-&gt;&gt;App: Read bytes, extract image dimensions
+            App-&gt;&gt;DB: INSERT Photo record with BLOB data
+            DB--&gt;&gt;App: Saved Photo with generated ID
+        else Validation fails
+            App-&gt;&gt;App: Record failure with error message
+        end
+    end
+    App--&gt;&gt;User: JSON response (uploaded list + failed list)
+
+    Note over User,DB: Browse Gallery Workflow
+    User-&gt;&gt;App: GET /
+    App-&gt;&gt;DB: SELECT all photos ORDER BY upload date DESC
+    DB--&gt;&gt;App: Photo list (metadata + IDs)
+    App--&gt;&gt;User: HTML gallery page with thumbnail links
+
+    Note over User,DB: View Detail and Navigate
+    User-&gt;&gt;App: Click photo thumbnail
+    App-&gt;&gt;DB: Find Photo by ID
+    alt Photo exists
+        App-&gt;&gt;DB: Find previous photo by timestamp
+        App-&gt;&gt;DB: Find next photo by timestamp
+        DB--&gt;&gt;App: Optional previous and next photos
+        App--&gt;&gt;User: Detail page with full image and navigation
+    else Photo not found
+        App--&gt;&gt;User: Redirect to gallery
+    end
+
+    Note over User,DB: Delete Photo
+    User-&gt;&gt;App: Submit delete action
+    App-&gt;&gt;DB: Find and DELETE Photo by ID
+    alt Deleted successfully
+        DB--&gt;&gt;App: Confirmation
+        App--&gt;&gt;User: Redirect to gallery with success message
+    else Not found
+        App--&gt;&gt;User: Redirect to gallery with error message
+    end</pre>
+<h2>Business Rules &amp; Decision Logic</h2>
+<h3>Validation Rules</h3>
+<table class="fact-table"><tbody>
+<tr><td>Rule</td><td>Applies To</td><td>Condition</td><td>Outcome if Violated</td></tr>
+<tr><td>MIME type whitelist</td><td>Upload</td><td>Content type must be one of: <code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>, <code>image/webp</code></td><td>File rejected with &quot;File type not supported&quot; message</td></tr>
+<tr><td>Maximum file size</td><td>Upload</td><td>File must not exceed <code>app.file-upload.max-file-size-bytes</code> (default 10 MB)</td><td>File rejected with size-limit error message</td></tr>
+<tr><td>Non-empty file</td><td>Upload</td><td>File byte size must be &gt; 0</td><td>File rejected with &quot;File is empty&quot; message</td></tr>
+<tr><td>Non-null file list</td><td>Upload</td><td>Request must contain at least one file</td><td>Entire request rejected with 400 Bad Request</td></tr>
+<tr><td>Valid photo ID</td><td>View / Delete</td><td>UUID path parameter must be non-blank and must correspond to an existing record</td><td>Redirect to gallery</td></tr>
+</tbody></table>
+<h3>Decision Logic</h3>
+<ul>
+<li><strong>Per-file result aggregation</strong>: Each file in a batch upload is processed independently. A partial success response (some files uploaded, some rejected) is valid — the caller receives distinct <code>uploadedPhotos</code> and <code>failedUploads</code> lists.</li>
+<li><strong>Image dimension extraction is best-effort</strong>: If the system cannot decode the byte array as an image (e.g., corrupted file that passes MIME check), the upload proceeds without width/height values rather than rejecting the file.</li>
+<li><strong>Gallery renders empty on error</strong>: If the database query for the gallery fails, the controller catches the exception and renders an empty gallery rather than propagating a 500 error to the user.</li>
+</ul>
+<h3>State Transitions</h3>
+<p>Photos have a simple two-state lifecycle:</p>
+<pre><code>[Uploaded] ──► [Deleted]</code></pre>
+<p>There are no intermediate states (no draft, no approval, no archive). A <code>Photo</code> record either exists in the database or it does not.</p>
+<h3>Transactions</h3>
+<p>All service methods execute within a Spring <code>@Transactional</code> boundary. Read-only operations (gallery listing, photo lookup, navigation queries) use <code>@Transactional(readOnly = true)</code>. Write operations (upload save, delete) use the default read-write transaction. There are no distributed transactions, saga patterns, or compensating actions.</p>
+<h3>Error Handling</h3>
+<ul>
+<li>Upload failures per file are captured and returned in the response rather than aborting the entire batch.</li>
+<li>Detail and delete operations catch all exceptions and redirect to the gallery rather than exposing stack traces.</li>
+<li>No business-specific exception types or dead-letter handling mechanisms are defined.</li>
+</ul>
+<h3>Audit / Logging</h3>
+<ul>
+<li>Upload success and failure are logged at INFO/WARN level with filename and photo ID.</li>
+<li>Delete success and failure are logged at INFO/ERROR level with photo ID.</li>
+<li>No structured audit trail, change-history table, or event sourcing is implemented.</li>
+</ul>
+<h3>Authorization</h3>
+<p>No authentication or authorisation is implemented. Any user with network access can upload, view, and delete any photo without credentials. See <code>api-service-contracts.md</code> for the full security posture.</p></div></div>
+
+  <p class="footer">Your feedback is invaluable — <a href="https://aka.ms/ghcp-appmod/feedback">Share feedback</a></p>
+</div>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'default' });
+</script>
+
+<script>
+var allTargetCrits = {"azure-aks": {"cloud": [0, 5, 0], "upgrade": [3, 0, 1]}, "azure-appservice": {"cloud": [0, 5, 0], "upgrade": [3, 0, 1]}, "azure-container-apps": {"cloud": [0, 5, 0], "upgrade": [3, 0, 1]}};
+
+function toggleRow(rowId, triggerRow) {
+  var detailRow = document.getElementById(rowId);
+  var btn = document.getElementById('btn-' + rowId);
+  if (!detailRow) return;
+  var isOpen = detailRow.style.display !== 'none';
+  detailRow.style.display = isOpen ? 'none' : 'table-row';
+  if (btn) btn.classList.toggle('open', !isOpen);
+}
+
+function toggleMultiSelect(id) {
+  var dd = document.getElementById(id);
+  dd.classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.multi-select-container')) {
+    document.querySelectorAll('.ms-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+  }
+});
+
+function getMultiSelectValues(msId) {
+  var checked = [];
+  document.querySelectorAll('#' + msId + ' input[type=checkbox]:checked').forEach(function(cb) {
+    checked.push(cb.value);
+  });
+  return checked;
+}
+
+function onMultiSelectChange(msId, label) {
+  var vals = getMultiSelectValues(msId);
+  var btn = document.querySelector('[onclick="toggleMultiSelect(\'' + msId + '\')"]');
+  if (btn) btn.textContent = label + ' (' + vals.length + ') ▾';
+  applyFilters();
+}
+
+function applyFilters() {
+  var domains = getMultiSelectValues('ms-domain');
+  var crits = getMultiSelectValues('ms-crit');
+  document.querySelectorAll('.issue-section').forEach(function(section) {
+    var sectionDomain = section.getAttribute('data-domain');
+    var domainVisible = domains.indexOf(sectionDomain) >= 0;
+    var anyVisible = false;
+    section.querySelectorAll('.issue-row').forEach(function(row) {
+      var rowCrit = row.getAttribute('data-criticality');
+      var visible = domainVisible && crits.indexOf(rowCrit) >= 0;
+      row.style.display = visible ? '' : 'none';
+      var detailId = row.getAttribute('onclick').match(/'([^']+)'/)[1];
+      var detailRow = document.getElementById(detailId);
+      if (detailRow && !visible) detailRow.style.display = 'none';
+      if (visible) anyVisible = true;
+    });
+    section.style.display = anyVisible ? '' : 'none';
+  });
+}
+
+function clearAllFilters() {
+  document.querySelectorAll('.ms-dropdown input[type=checkbox]').forEach(function(cb) { cb.checked = true; });
+  document.querySelectorAll('.ms-btn').forEach(function(btn) {
+    btn.textContent = btn.textContent.replace(/\s*\(\d+\)/, '');
+  });
+  applyFilters();
+}
+
+function buildDonutSvg(m, p, o) {
+  var total = m + p + o;
+  if (total === 0) return '<svg viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="35" fill="none" stroke="#e5e7eb" stroke-width="15"/><text x="50" y="55" text-anchor="middle" font-size="18" fill="#6b7280">0</text></svg>';
+  var circ = 2 * Math.PI * 35;
+  var gap = 1.5;
+  var counts = [m, p, o];
+  var colors = ['#E3008C', '#637CEF', '#A19F9D'];
+  var svg = '<svg viewBox="0 0 100 100" width="100" height="100">';
+  var offset = 0;
+  for (var i = 0; i < 3; i++) {
+    if (counts[i] === 0) continue;
+    var frac = counts[i] / total;
+    var dash = frac * circ - gap;
+    if (dash < 0) dash = 0;
+    var dashoff = -(offset);
+    svg += '<circle cx="50" cy="50" r="35" fill="none" stroke="' + colors[i] + '" stroke-width="15" stroke-dasharray="' + dash.toFixed(1) + ' ' + circ.toFixed(1) + '" stroke-dashoffset="' + dashoff.toFixed(1) + '" style="transform-origin:center;transform:rotate(-90deg)"/>';
+    offset += frac * circ;
+  }
+  svg += '<text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#24292f">' + total + '</text></svg>';
+  return svg;
+}
+
+function updateDonuts(domainCrits) {
+  var cloudEl = document.getElementById('donut-cloud');
+  var upgradeEl = document.getElementById('donut-upgrade');
+  if (cloudEl) {
+    var c = domainCrits.cloud;
+    cloudEl.innerHTML = buildDonutSvg(c[0], c[1], c[2]);
+    document.getElementById('cloud-m').textContent = c[0];
+    document.getElementById('cloud-p').textContent = c[1];
+    document.getElementById('cloud-o').textContent = c[2];
+  }
+  if (upgradeEl) {
+    var u = domainCrits.upgrade;
+    upgradeEl.innerHTML = buildDonutSvg(u[0], u[1], u[2]);
+    document.getElementById('upgrade-m').textContent = u[0];
+    document.getElementById('upgrade-p').textContent = u[1];
+    document.getElementById('upgrade-o').textContent = u[2];
+  }
+}
+
+function onTargetChange(targetId) {
+  var crits = allTargetCrits[targetId];
+  if (!crits) return;
+  updateDonuts(crits);
+  // Update row criticalities for the selected target
+  document.querySelectorAll('.issue-row').forEach(function(row) {
+    var tgtsRaw = row.getAttribute('data-targets');
+    if (!tgtsRaw) return;
+    try {
+      var tgts = JSON.parse(tgtsRaw);
+      var tgtData = tgts[targetId];
+      if (tgtData) {
+        var sev = tgtData.severity;
+        row.setAttribute('data-criticality', sev);
+        var critCell = row.querySelector('.crit-label');
+        if (critCell) {
+          critCell.innerHTML = '<span class="crit-square crit-square-' + sev + '"></span>' + sev.charAt(0).toUpperCase() + sev.slice(1);
+        }
+      }
+    } catch(e) {}
+  });
+  applyFilters();
+}
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  var panel = document.getElementById(tabId);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>
