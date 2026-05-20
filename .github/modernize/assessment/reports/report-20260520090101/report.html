@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><title>Assessment - photo-album</title>
+<style>
+:root{--bg-primary:#fff;--bg-card:#f8f9fa;--bg-page:#f0f1f3;--text-primary:#24292f;--border-color:#d0d7de;--link-color:#2563eb;}
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--bg-page);color:var(--text-primary);}
+.main{padding:24px 32px;max-width:1200px;margin:0 auto;}
+.report-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:4px;padding:16px;margin-bottom:16px;}
+table{width:100%;border-collapse:collapse;background:#fff;}th,td{border:1px solid var(--border-color);padding:8px;text-align:left;vertical-align:top;}
+.tab{margin-right:8px;padding:8px 12px;border:1px solid var(--border-color);background:#fff;cursor:pointer;}
+.panel{display:none;}.panel.active{display:block;}
+.footer{margin-top:24px;font-size:14px;}
+</style>
+<script>
+function openTab(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');}
+window.onload=function(){openTab('issues')};
+</script>
+</head><body><div class='main'>
+<h1>photo-album</h1>
+<div class='report-card'><h2>Application Information</h2>
+<table><tr><th>Language</th><td>Java</td><th>Frameworks</th><td>Spring Boot, Spring</td></tr>
+<tr><th>Build Tools</th><td>Maven</td><th>JDK</th><td>1.8</td></tr>
+<tr><th>Total Issues</th><td>9</td><th>Story Points</th><td>172</td></tr></table></div>
+<div><button class='tab' onclick="openTab('issues')">Issues</button> <button class='tab' onclick="openTab('tab-1')">Architecture Diagram</button><button class='tab' onclick="openTab('tab-2')">Dependency Map</button><button class='tab' onclick="openTab('tab-3')">API & Service Contracts</button><button class='tab' onclick="openTab('tab-4')">Data Architecture</button><button class='tab' onclick="openTab('tab-5')">Configuration Inventory</button><button class='tab' onclick="openTab('tab-6')">Business Workflows</button></div>
+<div id='issues' class='panel'><div class='report-card'><h2>Issues</h2><table><thead><tr><th>Domain</th><th>Issue Category</th><th>Criticality</th><th>Story Point</th><th>Occurrences</th></tr></thead><tbody><tr><td>Cloud</td><td>Oracle database found</td><td>Potential</td><td>8</td><td>6</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>pom.xml</code> (line 52)</li><li><code>src/main/resources/application-docker.properties</code> (line 2)</li><li><code>src/main/resources/application.properties</code> (line 10)</li><li><code>docker-compose.yml</code> (line 32)</li><li><code>src/main/resources/application-docker.properties</code> (line 5)</li><li><code>src/main/resources/application.properties</code> (line 13)</li></ul></details></td></tr><tr><td>Cloud</td><td>Password found in configuration file</td><td>Potential</td><td>3</td><td>3</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>src/test/resources/application-test.properties</code> (line 5)</li><li><code>src/main/resources/application-docker.properties</code> (line 4)</li><li><code>src/main/resources/application.properties</code> (line 12)</li></ul></details></td></tr><tr><td>Cloud</td><td>Restricted configurations found</td><td>Potential</td><td>2</td><td>2</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>src/main/resources/application-docker.properties</code> (line 24)</li><li><code>src/main/resources/application.properties</code> (line 2)</li></ul></details></td></tr><tr><td>Cloud</td><td>Server port configuration found</td><td>Potential</td><td>1</td><td>2</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>src/main/resources/application-docker.properties</code> (line 24)</li><li><code>src/main/resources/application.properties</code> (line 2)</li></ul></details></td></tr><tr><td>Cloud</td><td>Detects usage of Jakarta Persistence (JPA) APIs</td><td>Potential</td><td>5</td><td>1</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>pom.xml</code> (line 46)</li></ul></details></td></tr><tr><td>Upgrade</td><td>Spring Boot Version Has Reached the End of OSS Support</td><td>Mandatory</td><td>8</td><td>7</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>pom.xml</code> (line 92)</li><li><code>pom.xml</code> (line 78)</li><li><code>pom.xml</code> (line 46)</li><li><code>pom.xml</code> (line 34)</li><li><code>pom.xml</code> (line 59)</li><li><code>pom.xml</code> (line 72)</li><li><code>pom.xml</code> (line 40)</li></ul></details></td></tr><tr><td>Upgrade</td><td>Spring Framework Version Has Reached the End of OSS Support</td><td>Mandatory</td><td>8</td><td>3</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>pom.xml</code> (line 78)</li><li><code>pom.xml</code> (line 34)</li><li><code>pom.xml</code> (line 46)</li></ul></details></td></tr><tr><td>Upgrade</td><td>Java Version Has Reached the End of Support</td><td>Mandatory</td><td>8</td><td>1</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>pom.xml</code> (line 24)</li></ul></details></td></tr><tr><td>Upgrade</td><td>Java Version is not the latest LTS</td><td>Optional</td><td>8</td><td>2</td></tr><tr><td colspan='5'><details><summary>Affected files</summary><ul><li><code>pom.xml</code> (line 25)</li><li><code>pom.xml</code> (line 26)</li></ul></details></td></tr></tbody></table></div></div>
+<div id='tab-1' class='panel'><h2>Architecture Diagram</h2><pre># Architecture Diagram
+
+This application is a monolithic Spring Boot web app that serves a photo gallery UI and manages photo lifecycle operations backed by Oracle.
+
+## Application Architecture
+
+```mermaid
+flowchart TD
+    subgraph Client["Client Layer"]
+        Browser["Web Browser"]
+    end
+    subgraph App["Application Layer - Spring Boot 2.7"]
+        MVC["Spring MVC Controllers"]
+        Svc["PhotoService"]
+        View["Thymeleaf Templates"]
+    end
+    subgraph Data["Data Layer"]
+        Repo["Spring Data JPA Repository"]
+        Oracle[("Oracle Database")]
+    end
+
+    Browser --&gt;|"HTTP requests"| MVC
+    MVC --&gt;|"render views"| View
+    MVC --&gt;|"invoke business logic"| Svc
+    Svc --&gt;|"CRUD and queries"| Repo
+    Repo --&gt;|"SQL and BLOB storage"| Oracle
+```
+
+### Technology Stack Summary
+
+| Layer | Technology | Version | Purpose |
+|---|---|---|---|
+| Presentation | Spring MVC + Thymeleaf | Spring Boot 2.7.18 | Handles page rendering and request routing |
+| Business | PhotoService | App code | Upload validation, navigation, deletion |
+| Data Access | Spring Data JPA + Hibernate | Spring Boot managed | Persistence abstraction for photo entities |
+| Database | Oracle | JDBC ojdbc8 runtime | Stores photo metadata and binary image content |
+
+### Data Storage &amp; External Services
+
+The application stores all photo metadata and image binary data (BLOB) in an Oracle database. No external API integrations or message brokers were detected.
+
+### Key Architectural Decisions
+
+- Uses a layered monolith (controller → service → repository).
+- Persists image binary payloads directly in Oracle instead of filesystem/object storage.
+- Uses Thymeleaf server-side rendering for the gallery and detail pages.
+
+## Component Relationships
+
+```mermaid
+flowchart LR
+    subgraph Presentation
+        HomeCtrl["HomeController"]
+        DetailCtrl["DetailController"]
+        FileCtrl["PhotoFileController"]
+    end
+    subgraph Business["Business Logic"]
+        PhotoSvc["PhotoServiceImpl"]
+    end
+    subgraph DataAccess["Data Access"]
+        PhotoRepo["PhotoRepository"]
+        PhotoEntity["Photo Entity"]
+    end
+    subgraph Infra["Infrastructure"]
+        Tx["Spring Transaction Management"]
+        Log["SLF4J Logging"]
+    end
+
+    HomeCtrl --&gt;|"list and upload"| PhotoSvc
+    DetailCtrl --&gt;|"detail, next/prev, delete"| PhotoSvc
+    FileCtrl --&gt;|"binary photo fetch"| PhotoSvc
+    PhotoSvc --&gt;|"query and persist"| PhotoRepo
+    PhotoRepo --&gt;|"map rows"| PhotoEntity
+    Tx -.-&gt;|"transaction boundary"| PhotoSvc
+    Log -.-&gt;|"cross-cutting logging"| Presentation
+```
+
+### Component Inventory
+
+| Component | Layer | Type | Responsibility |
+|---|---|---|---|
+| HomeController | Presentation | MVC Controller | Gallery page and multi-file upload endpoint |
+| DetailController | Presentation | MVC Controller | Photo detail view and delete action |
+| PhotoFileController | Presentation | MVC Controller | Serves photo bytes by id |
+| PhotoServiceImpl | Business Logic | Service | Validation, metadata extraction, photo lifecycle logic |
+| PhotoRepository | Data Access | JpaRepository | Oracle-backed photo queries and persistence |
+| Photo | Data Access | JPA Entity | Photo metadata plus BLOB payload model |
+</pre></div><div id='tab-2' class='panel'><h2>Dependency Map</h2><pre># Dependency Map
+
+The `photo-album` project uses a focused Spring Boot stack with Oracle persistence and Thymeleaf rendering.
+
+## Dependencies
+
+```mermaid
+flowchart LR
+    App["photo-album"]
+
+    subgraph Web["Web Frameworks"]
+        WebStarter["spring-boot-starter-web 2.7.18"]
+        Thymeleaf["spring-boot-starter-thymeleaf 2.7.18"]
+    end
+
+    subgraph DB["Database / ORM"]
+        Jpa["spring-boot-starter-data-jpa 2.7.18"]
+        Oracle["ojdbc8 (runtime)"]
+    end
+
+    subgraph Security["Security"]
+        Validation["spring-boot-starter-validation 2.7.18"]
+    end
+
+    subgraph Utilities["Utilities"]
+        CommonsIo["commons-io 2.11.0"]
+        Json["spring-boot-starter-json 2.7.18"]
+        DevTools["spring-boot-devtools 2.7.18"]
+    end
+
+    App --&gt;|"web"| Web
+    App --&gt;|"persistence"| DB
+    App --&gt;|"input validation"| Security
+    App --&gt;|"utilities"| Utilities
+```
+
+### Dependency Summary
+
+| Category | Count | Key Libraries | Notes |
+|---|---:|---|---|
+| Web Frameworks | 2 | spring-boot-starter-web, spring-boot-starter-thymeleaf | MVC plus server-side HTML rendering |
+| Database / ORM | 2 | spring-boot-starter-data-jpa, ojdbc8 | Oracle-specific persistence |
+| Security | 1 | spring-boot-starter-validation | Bean validation for input checks |
+| Utilities | 3 | commons-io, spring-boot-starter-json, devtools | JSON handling and dev productivity |
+
+### Version &amp; Compatibility Risks
+
+The stack is based on Java 8 and Spring Boot 2.7.x, both of which commonly trigger modernization/upgrade findings for current Azure migration targets. Oracle-specific SQL and the Oracle JDBC driver can increase migration effort when moving to managed PostgreSQL services.
+
+### Notable Observations
+
+- Oracle runtime driver use is explicit and central to persistence.
+- Repository layer contains Oracle-specific native SQL patterns.
+- Dependency footprint is relatively small and monolithic.
+
+## Test Dependencies
+
+| Framework | Version | Notes |
+|---|---|---|
+| spring-boot-starter-test | 2.7.18 | Main test umbrella (JUnit/Mockito/assertions via Spring Boot BOM) |
+| H2 | Managed by Spring Boot BOM | In-memory database for tests |
+
+Total test-scope dependencies: 2
+
+Test infrastructure is present and supports database-backed tests without requiring a live Oracle instance.
+</pre></div><div id='tab-3' class='panel'><h2>API & Service Contracts</h2><pre># API &amp; Service Communication Contracts
+
+The application exposes a small HTTP surface for gallery browsing, upload, binary media retrieval, and deletion. Communication is synchronous within a single deployable service.
+
+## Service Catalog
+
+| Service | Port | Category | Purpose |
+|---|---:|---|---|
+| photo-album | 8080 | API Layer + Business | Serves UI pages and photo CRUD/upload operations |
+
+## API Endpoints Inventory
+
+| Service | Method | Path | Request Type | Response Type |
+|---|---|---|---|---|
+| photo-album (HomeController) | GET | `/` | None | Thymeleaf `index` page |
+| photo-album (HomeController) | POST | `/upload` | Multipart `files` | JSON map with `uploadedPhotos` and `failedUploads` |
+| photo-album (DetailController) | GET | `/detail/{id}` | Path param `id` | Thymeleaf `detail` page or redirect |
+| photo-album (DetailController) | POST | `/detail/{id}/delete` | Path param `id` | Redirect to `/` with flash message |
+| photo-album (PhotoFileController) | GET | `/photo/{id}` | Path param `id` | Binary image (`Resource`) with MIME content type |
+
+## Management &amp; Observability Endpoints
+
+| Service | Endpoint | Custom Metrics (if any) |
+|---|---|---|
+| photo-album | None detected | None detected |
+
+## DTOs &amp; Contracts
+
+Request/response contracts are lightweight and primarily represented by framework types (`MultipartFile`, `Model`, redirect responses) and map-based JSON payloads for uploads. `UploadResult` acts as an internal upload outcome model, while `Photo` is used as a service/domain model returned to templates and binary endpoint logic. No OpenAPI or protobuf contract files were detected.
+
+## Communication Patterns
+
+The app uses synchronous in-process calls: controller → service → repository → Oracle database. No asynchronous messaging, service discovery, client-side load balancing, or circuit-breaker/retry library usage was detected. API-level security controls (authN/authZ/TLS termination config) were not explicitly configured in the application code.
+
+## Service Technology Matrix
+
+| Service | Web | Data Access | Discovery | Gateway | Actuator | Cache | Metrics |
+|---|---|---|---|---|---|---|---|
+| photo-album | Spring MVC + Thymeleaf | Spring Data JPA + native SQL | none | none | none | none | none |
+
+## Service Communication Sequence
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Home as "HomeController"
+    participant Service as "PhotoService"
+    participant Repo as "PhotoRepository"
+    participant DB as "Oracle DB"
+
+    Client-&gt;&gt;Home: POST /upload (multipart files)
+    Home-&gt;&gt;Service: uploadPhoto(file)
+    Service-&gt;&gt;Repo: save(Photo)
+    Repo-&gt;&gt;DB: INSERT into PHOTOS
+    DB--&gt;&gt;Repo: persisted row
+    Repo--&gt;&gt;Service: Photo(id,...)
+    Service--&gt;&gt;Home: UploadResult(success,id)
+    Home--&gt;&gt;Client: JSON upload summary
+```
+</pre></div><div id='tab-4' class='panel'><h2>Data Architecture</h2><pre># Data Architecture &amp; Persistence Layer
+
+The data layer is centered on a single Oracle-backed entity persisted through Spring Data JPA/Hibernate with native SQL repository methods.
+
+## Database Configuration
+
+| Service/Module | DB Type | Profile | Driver | Connection | Migration Tool |
+|---|---|---|---|---|---|
+| photo-album | Oracle | default | oracle.jdbc.OracleDriver | JDBC Oracle URL to `oracle-db:1521/FREEPDB1` | None detected |
+| photo-album | Oracle | docker | oracle.jdbc.OracleDriver | JDBC Oracle URL to `oracle-db:1521:XE` | None detected |
+
+## Data Ownership per Service
+
+| Service | Tables Owned | ORM Framework | Caching | Notes |
+|---|---|---|---|---|
+| photo-album | `PHOTOS` | JPA/Hibernate (Spring Data) | None detected | Stores metadata and `photo_data` BLOB in the same table |
+
+## Entity Model
+
+```mermaid
+erDiagram
+    PHOTOS {
+        string id PK
+        string original_file_name
+        blob photo_data
+        string stored_file_name
+        string file_path
+        long file_size
+        string mime_type
+        datetime uploaded_at
+        int width
+        int height
+    }
+```
+
+## Key Repository Methods
+
+| Service | Repository | Notable Methods | Purpose |
+|---|---|---|---|
+| photo-album | PhotoRepository | `findAllOrderByUploadedAtDesc()` | Gallery listing ordered by most recent uploads |
+| photo-album | PhotoRepository | `findPhotosUploadedBefore(uploadedAt)` | Previous-photo navigation query |
+| photo-album | PhotoRepository | `findPhotosUploadedAfter(uploadedAt)` | Next-photo navigation query |
+| photo-album | PhotoRepository | `findPhotosByUploadMonth(year, month)` | Oracle `TO_CHAR` based month filtering |
+| photo-album | PhotoRepository | `findPhotosWithPagination(startRow, endRow)` | Oracle `ROWNUM` paging |
+
+## Caching Strategy
+
+No explicit application cache provider (`@Cacheable`, Redis, Caffeine, JCache) was detected. The primary optimization approach is direct repository query patterns against Oracle.
+
+## Data Ownership Boundaries
+
+The application is a single bounded context with one owned table and no cross-service data sharing. Read and write operations are handled within the same service and transaction boundary; no CQRS split or cross-service aggregation pattern is present.
+
+### Data Classification &amp; Sensitivity
+
+| Entity | Sensitive Fields | Classification (PII/PHI/PCI/None) | Controls in Place |
+|---|---|---|---|
+| Photo | `originalFileName` (potential personal naming), `photoData` (image content) | PII (potential) | No field-level masking or encryption controls detected in code |
+</pre></div><div id='tab-5' class='panel'><h2>Configuration Inventory</h2><pre># Configuration &amp; Externalized Settings Inventory
+
+Configuration is file-based and profile-driven, primarily through Spring Boot property files with environment-specific Oracle connection settings.
+
+## Configuration Sources
+
+| Source | Type | Path/Location | Notes |
+|---|---|---|---|
+| Spring application config | Properties | `src/main/resources/application.properties` | Default runtime settings |
+| Spring profile config | Properties | `src/main/resources/application-docker.properties` | Docker profile overrides |
+| Build config | Maven POM | `pom.xml` | Dependencies and build plugin config |
+
+## Build Profiles
+
+| Profile | Activation | Purpose | Key Dependencies/Plugins |
+|---|---|---|---|
+| default Maven build | `mvn ...` execution | Compile/package Spring Boot app | `spring-boot-maven-plugin` |
+
+## Runtime Profiles
+
+| Profile | Activation Method | Config Files | Key Overrides |
+|---|---|---|---|
+| default | implicit | `application.properties` | Oracle URL `FREEPDB1`, DEBUG logging |
+| docker | `spring.profiles.active=docker` | `application-docker.properties` | Oracle URL `XE`, adjusted logging levels |
+
+## Properties Inventory
+
+| Property Key | Default | Profiles | Source |
+|---|---|---|---|
+| `server.port` | `8080` | default,docker | property file |
+| `spring.datasource.url` | Oracle JDBC URL | default,docker (different values) | property file |
+| `spring.datasource.username` | `photoalbum` | default,docker | property file |
+| `spring.datasource.password` | `[MASKED]` | default,docker | property file |
+| `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver` | default,docker | property file |
+| `spring.jpa.hibernate.ddl-auto` | `create` | default,docker | property file |
+| `spring.servlet.multipart.max-file-size` | `10MB` | default,docker | property file |
+| `spring.servlet.multipart.max-request-size` | `50MB` | default,docker | property file |
+| `app.file-upload.allowed-mime-types` | `image/jpeg,image/png,image/gif,image/webp` | default,docker | property file |
+
+## Startup Parameters &amp; Resource Requirements
+
+| Service | JVM/Runtime Options | Memory | Instance Count |
+|---|---|---|---|
+| photo-album | None explicitly configured in repo | Not specified | Not specified |
+
+## Startup Dependency Chain
+
+1. photo-album application starts and initializes Spring context.
+2. Data source initialization requires reachable Oracle database endpoint (`oracle-db`).
+3. Repository and web layers become available after datasource/JPA initialization succeeds.
+
+## Secrets &amp; Sensitive Configuration
+
+| Secret Reference | Type | Storage (masked) |
+|---|---|---|
+| `spring.datasource.password` | Database credential | Application property file `[MASKED]` |
+
+### Secrets Provisioning Workflow
+
+Secrets are currently configured as static property values in local configuration files. No managed secret store integration (for example Key Vault) or managed identity flow was detected.
+
+## Feature Flags
+
+| Flag Name | Default | Controlled By |
+|---|---|---|
+| None detected | N/A | N/A |
+
+## Framework &amp; Runtime Versions
+
+| Component | Version | Source |
+|---|---|---|
+| Java | 1.8 | `pom.xml` properties |
+| Spring Boot | 2.7.18 | parent POM |
+| Spring Framework | 5.x (via Boot BOM) | dependency management |
+| Maven | project-managed build tool | `pom.xml` |
+</pre></div><div id='tab-6' class='panel'><h2>Business Workflows</h2><pre># Core Business Workflows
+
+The application supports photo gallery management workflows for uploading images, browsing them, viewing individual details, and deleting photos.
+
+## Domain Entities
+
+| Entity | Service / Bounded Context | Description | Key Relationships |
+|---|---|---|---|
+| Photo | Photo Management | Core aggregate representing an uploaded image and display metadata | Accessed by gallery, detail, and file-serving workflows |
+| UploadResult | Photo Management | Operation result contract for upload processing outcome | Linked to upload flow responses |
+
+## Service-to-Domain Mapping
+
+| Service | Domain Context | Owned Entities | External Dependencies |
+|---|---|---|---|
+| photo-album | Photo Management | Photo, UploadResult | Oracle database |
+
+## Primary Workflows
+
+### Workflow 1: Upload Photos
+
+User submits one or more image files, system validates MIME type and size, extracts image dimensions when possible, stores binary image plus metadata, then returns per-file success/failure results.
+
+### Workflow 2: Browse and View Photos
+
+User opens gallery to list photos sorted by upload date; selecting an item opens detail page with previous/next navigation based on upload timestamp queries.
+
+### Workflow 3: Delete Photo
+
+User requests deletion from the detail page; service checks existence and removes the record, then redirects with success or error feedback.
+
+## Cross-Service Data Flows
+
+No cross-service composition was detected. All business flows execute inside a single service boundary and interact directly with the same Oracle data store.
+
+## Business Workflow Sequence
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Home as "HomeController"
+    participant Service as "PhotoService"
+    participant Repo as "PhotoRepository"
+    participant DB as "Oracle DB"
+
+    User-&gt;&gt;Home: Upload selected photos
+    Home-&gt;&gt;Service: Validate and process each file
+    Service-&gt;&gt;Service: Check MIME type and size rules
+    alt Validation succeeds
+        Service-&gt;&gt;Repo: Persist photo metadata and binary content
+        Repo-&gt;&gt;DB: Insert photo row
+        DB--&gt;&gt;Repo: Persisted photo
+        Repo--&gt;&gt;Service: Saved entity with id
+    else Validation fails
+        Service--&gt;&gt;Home: UploadResult with error
+    end
+    Home--&gt;&gt;User: Upload summary with successes and failures
+```
+
+## Business Rules &amp; Decision Logic
+
+- Only allowed image MIME types are accepted (`jpeg`, `png`, `gif`, `webp`).
+- Maximum file size is enforced before persistence.
+- Empty files are rejected.
+- Deletion requires photo existence; otherwise the user receives a not-found message.
+- Service methods execute in transactional boundaries managed by Spring.
+</pre></div>
+<p class='footer'>Your feedback is invaluable — <a href='https://aka.ms/ghcp-appmod/feedback'>Share feedback</a></p>
+</div></body></html>
